@@ -1,8 +1,8 @@
 /*
- * draw.h
+ * windows.h
  *
  *
- * draw routines
+ * init ncurses windows for rogue
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -45,13 +45,17 @@
  *
  */
 
-#ifndef __ROGUE_DRAW__
-#define __ROGUE_DRAW__
+#ifndef __ROGUE_WINDOWS__
+#define __ROGUE_WINDOWS__
 
 #include <ncurses.h>
 
-void drawBox(int, int, int, int, WINDOW*);
-void drawRoom(int, int, int, int, WINDOW*);
+
+WINDOW* init_gamew();
+
+WINDOW* init_helpw();
+
 
 
 #endif
+

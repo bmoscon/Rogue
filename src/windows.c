@@ -1,8 +1,8 @@
 /*
- * draw.h
+ * windows.c
  *
  *
- * draw routines
+ * init ncurses windows for rogue
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -45,13 +45,31 @@
  *
  */
 
-#ifndef __ROGUE_DRAW__
-#define __ROGUE_DRAW__
-
-#include <ncurses.h>
-
-void drawBox(int, int, int, int, WINDOW*);
-void drawRoom(int, int, int, int, WINDOW*);
+#include "windows.h"
 
 
-#endif
+WINDOW* init_gamew()
+{
+  // main game window doesn't require any default
+  // stuff drawn, so just return the window
+  
+  return (initscr());
+}
+
+
+WINDOW* init_helpw()
+{
+  // need to draw the help menu onto the window. Each time we want to display it, we can just
+  // touch the window and refresh.
+  
+  WINDOW *help = initscr();
+  if (!help) {
+    return (NULL);
+  }
+  
+  // create help menu
+  
+  
+  
+  return (help);
+}
