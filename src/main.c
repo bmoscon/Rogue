@@ -88,6 +88,10 @@ int main()
   
   
   getch();
+  switch_win(help);
+  getch();
+  switch_win(game);
+  getch();
   endwin();
   
   return (EXIT_SUCCESS);

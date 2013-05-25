@@ -62,14 +62,26 @@ WINDOW* init_helpw()
   // need to draw the help menu onto the window. Each time we want to display it, we can just
   // touch the window and refresh.
   
-  WINDOW *help = initscr();
+  WINDOW *help = newwin(0,0,0,0);
   if (!help) {
     return (NULL);
   }
   
   // create help menu
-  
+  mvwaddstr(help, 0, 0, "Rogue Help Menu");
   
   
   return (help);
+}
+
+void switch_win(WINDOW *win)
+{
+  if (!win) {
+    endwin();
+    fprintf(stderr, "%s:%d - %s() - NULL window\n", __FILE__, __LINE__, __FUNCTION__);
+    exit(EXIT_FAILURE);
+  }
+  
+  touchwin(win);
+  wrefresh(win);
 }

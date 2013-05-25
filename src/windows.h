@@ -49,11 +49,14 @@
 #define __ROGUE_WINDOWS__
 
 #include <ncurses.h>
+#include <stdlib.h>
 
 
 WINDOW* init_gamew();
 
 WINDOW* init_helpw();
+
+void switch_win(WINDOW *win);
 
 
 
