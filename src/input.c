@@ -48,6 +48,7 @@
 
 #include "input.h"
 #include "colors.h"
+#include "windows.h"
 
 
 static void quit_handler(state_st *state)
@@ -79,6 +80,13 @@ static void quit_handler(state_st *state)
   }
 }
 
+static void help_handler(state_st *state)
+{
+  switch_win(state->help);
+  getch();
+  switch_win(state->game);
+}
+
 
 void input_handler(state_st *state)
 {
@@ -98,6 +106,9 @@ void input_handler(state_st *state)
   switch(input) {
     case 'q':
       quit_handler(state);
+      break;
+    case 'h':
+      help_handler(state);
       break;
     default:
       break;

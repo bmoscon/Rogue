@@ -69,6 +69,8 @@ WINDOW* init_helpw()
   
   // create help menu
   mvwaddstr(help, 0, 0, "Rogue Help Menu");
+  mvwaddstr(help, 2, 0, "h: this menu");
+  mvwaddstr(help, 3, 0, "q: quit");
   
   
   return (help);
