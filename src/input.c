@@ -47,3 +47,62 @@
 
 
 #include "input.h"
+#include "colors.h"
+
+
+static void quit_handler(state_st *state)
+{
+  int i;
+
+  // clear text area
+  move(LINES-1, 0);
+  for (i = 0; i < COLS; ++i) {
+    delch();
+  }
+  refresh();
+  
+  // set color
+  color_text();
+  addstr("Are you sure you want to quit (y/n)?");
+  
+  i = getch();
+  
+  if (i == 'y') {
+    state->running = false;
+  } else {
+    // replace with old text (i.e. stats)
+    move(LINES-1, 0);
+    for (i = 0; i < COLS; ++i) {
+      delch();
+    }
+    refresh();
+  }
+}
+
+
+void input_handler(state_st *state)
+{
+  int input;
+
+  if (!state) {
+    endwin();
+    fprintf(stderr, "%s:%d - %s() - NULL game state\n", __FILE__, __LINE__, __FUNCTION__);
+    exit(EXIT_FAILURE);
+  }
+
+  // even though ncurses has a getchw version (and we are using more than just stdscr), 
+  // ncurses only has one input buffer, not one per window, so no need to use the
+  // window specific function
+  input = getch();
+  
+  switch(input) {
+    case 'q':
+      quit_handler(state);
+      break;
+    default:
+      break;
+  }
+  
+ 
+  
+}

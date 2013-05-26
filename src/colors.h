@@ -51,8 +51,11 @@
 
 #include <ncurses.h>
 
+void init_colors();
+
 void color_wall();
 void color_floor();
+void color_text();
 
 
 #endif

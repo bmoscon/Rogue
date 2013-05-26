@@ -50,15 +50,25 @@
 
 #include "colors.h"
 
-void color_wall()
+void init_colors()
 {
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+  init_pair(2, COLOR_GREEN, COLOR_BLACK);
+  init_pair(3, COLOR_WHITE, COLOR_BLACK);
+}
+
+void color_wall()
+{
   attrset(COLOR_PAIR(1));
 }
 
 
 void color_floor()
 {
-  init_pair(2, COLOR_GREEN, COLOR_BLACK);
   attrset(COLOR_PAIR(2));
+}
+
+void color_text()
+{
+  attrset(COLOR_PAIR(3));
 }

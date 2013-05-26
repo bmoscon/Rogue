@@ -53,6 +53,8 @@
 #include "rogue.h"
 #include "draw.h"
 #include "windows.h"
+#include "input.h"
+#include "colors.h"
 
 
 static void game_init(state_st *state)
@@ -80,19 +82,13 @@ static void game_init(state_st *state)
     exit(EXIT_FAILURE);
   }
   start_color();
+  init_colors();
 
 }
 
 static void draw(state_st *state)
 {
-  drawRoom(0, 0, LINES, COLS, state->game);
-  
-  
-  getch();
-  switch_win(state->help);
-  getch();
-  switch_win(state->game);
-  getch();
+  drawRoom(0, 0, LINES-1, COLS-1, state->game);
 }
 
 static bool running(state_st *state)
@@ -129,7 +125,7 @@ int main()
     draw(&state);
     
     // input
-    // input();
+    input_handler(&state);
     
   } while(running(&state));
   

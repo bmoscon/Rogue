@@ -49,8 +49,13 @@
 #define __ROGUE_INPUT__
 
 #include <ncurses.h>
+#include <stdlib.h>
+
+#include "rogue.h"
 
 
+
+void input_handler(state_st *state);
 
 
 
