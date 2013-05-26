@@ -83,6 +83,9 @@ static void game_init(state_st *state)
   }
   start_color();
   init_colors();
+  
+  // allow us to catch the arrow keys
+  keypad(state->game, TRUE);
 
 }
 

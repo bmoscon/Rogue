@@ -88,6 +88,13 @@ static void help_handler(state_st *state)
 }
 
 
+static void move_handler(state_st *state, int x, int y)
+{
+  // x and y indicate in what direction we are moving. 
+  
+}
+
+
 void input_handler(state_st *state)
 {
   int input;
@@ -110,8 +117,21 @@ void input_handler(state_st *state)
     case 'h':
       help_handler(state);
       break;
+    case KEY_DOWN:
+      move_handler(state, 0, 1);
+      break;
+    case KEY_UP:
+      move_handler(state, 0, -1);
+      break;
+    case KEY_RIGHT:
+      move_handler(state, 1, 0);
+      break;
+    case KEY_LEFT:
+      move_handler(state, -1, 0);
+      break;
     default:
       break;
+     
   }
   
  
