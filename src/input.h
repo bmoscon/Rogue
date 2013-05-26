@@ -1,8 +1,8 @@
 /*
- * main.c
+ * input.h
  *
  *
- * entry point for rogue
+ * input handlers
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -45,99 +45,14 @@
  *
  */
 
+#ifndef __ROGUE_INPUT__
+#define __ROGUE_INPUT__
 
-#include <locale.h>
-#include <stdlib.h>
-
-
-#include "rogue.h"
-#include "draw.h"
-#include "windows.h"
+#include <ncurses.h>
 
 
-static void game_init(state_st *state)
-{
-  // set up windows
-  state->game = init_gamew();
-  if (!state->game) {
-    endwin();
-    fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
-    exit(EXIT_FAILURE);
-  }
-      
-  state->help = init_helpw();
-  if (!state->help) {
-    endwin();
-    fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
-    exit(EXIT_FAILURE);
-  }
 
-  curs_set(0);
 
-  if(has_colors() == false) {
-    endwin();
-    fprintf(stderr, "Your terminal does not support color\n");
-    exit(EXIT_FAILURE);
-  }
-  start_color();
 
-}
+#endif
 
-static void draw(state_st *state)
-{
-  drawRoom(0, 0, LINES, COLS, state->game);
-  
-  
-  getch();
-  switch_win(state->help);
-  getch();
-  switch_win(state->game);
-  getch();
-}
-
-static bool running(state_st *state)
-{
-  return (state->running);
-}
-
-static void welcome(state_st *state)
-{
-
-  //once we are done getting rogue's name, turn off echo
-  noecho();
-}
-
-int main()
-{
-  state_st state;
-  
-  // set locale, otherwise we cant use unicode characters for the walls
-  setlocale(LC_ALL, "");
-
-  // set up game
-  game_init(&state);
-
-  // welcome screen. get rogue's name
-  welcome(&state);
-  
-  // roll character
-  //rogue_init(&state);
-
-  // game loop
-  do {
-    // draw
-    draw(&state);
-    
-    // input
-    // input();
-    
-  } while(running(&state));
-  
-  
-  
-  
-  
- 
-  endwin(); 
-  return (EXIT_SUCCESS);
-}
