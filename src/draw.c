@@ -45,12 +45,45 @@
  *
  */
 
+#include <string.h>
 
 #include "draw.h"
 #include "colors.h"
 
 
-void drawBox(int startx, int starty, int rows, int cols, WINDOW* win)
+static void center_text(int row, const char *text, WINDOW *win)
+{
+  int indent;
+  
+  indent = COLS - strlen(text);
+  indent /= 2;
+  
+  mvaddstr(row, indent, text);
+}
+
+static void horiz_line(int x, int y, int len, WINDOW *win)
+{
+  int i;
+
+  wmove(win, y, x);
+
+  for(i = 0; i < len; ++i) {
+    waddstr(win, "\u2550");
+  } 
+
+}
+
+static void vert_line(int x, int y, int len, WINDOW *win)
+{
+  int i;
+  
+  for (i = 0; i < len; ++i) {
+    wmove(win, y+i, x);
+    addstr("\u2551");
+  }
+}
+
+void draw_box(int startx, int starty, int rows, int cols, WINDOW* win)
 {
   int i;
 
@@ -83,12 +116,10 @@ void drawBox(int startx, int starty, int rows, int cols, WINDOW* win)
   } 
   
   addstr("\u255D");
-  
-  refresh();
 }
 
 
-void drawRoom(int startx, int starty, int rows, int cols, WINDOW* win)
+void draw_room(int startx, int starty, int rows, int cols, WINDOW* win)
 {
   int i, j;
 
@@ -99,7 +130,7 @@ void drawRoom(int startx, int starty, int rows, int cols, WINDOW* win)
 
 
   // first draw the box
-  drawBox(startx, starty, rows, cols, win);
+  draw_box(startx, starty, rows, cols, win);
   
   startx++;
   starty++;
@@ -121,4 +152,54 @@ void drawRoom(int startx, int starty, int rows, int cols, WINDOW* win)
   // draw monsters
 
 
+}
+
+
+void draw_welcome_box(WINDOW *win)
+{
+  color_wall();
+
+  wmove(win, 0, 0);
+  
+  // top line (+ corners)
+  waddstr(win, "\u2554");
+  horiz_line(1, 0, COLS-2, win);
+  waddstr(win, "\u2557");
+
+  //sides
+  vert_line(0, 1, LINES-3, win);
+  vert_line(COLS-1, 1, LINES-3, win);
+  
+  wmove(win, LINES-3, 0);
+  
+  // draw left vertial with horizontal intersect
+  waddstr(win, "\u2560");
+  wmove(win, LINES-3, COLS-1);
+  waddstr(win, "\u2563");
+  horiz_line(1, LINES-3, COLS-2, win);
+  vert_line(0, LINES-2, 1, win);
+  vert_line(COLS-1, LINES-2, 1, win);
+  
+  // bottom line
+  wmove(win, LINES-1, 0);
+  waddstr(win, "\u255A");
+  horiz_line(1, LINES-1, COLS-2, win);
+  waddstr(win, "\u255D");
+
+  //print out the title
+  color_title();
+  center_text(3, "Rogue: The Dungeons of Doom", win);
+
+  // copyright
+  color_copyright();
+  center_text(LINES-6, "Copyright (C) 2013", win);
+  center_text(LINES-5, "Bryant Moscon", win);
+  center_text(LINES-4, "All Rights Reserved", win);
+
+  wmove(win, LINES-2, 1);
+  color_text();
+  waddstr(win, "Rogue's Name: ");
+
+  
+  
 }

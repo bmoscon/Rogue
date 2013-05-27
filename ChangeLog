@@ -1,3 +1,7 @@
+rogue - 0.0.4 - May 27, 2013
+	* Welcome screen added
+	* input character's name
+
 rogue - 0.0.3 - May 26, 2013
 	* basic gameloop
 	* initial input handler created. Catches help menu, quit, and movement keys

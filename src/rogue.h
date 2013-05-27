@@ -57,10 +57,17 @@ typedef struct state_st {
   WINDOW *game;
   WINDOW *help;
   
+  // rogue's name
+  char *name;
+  
   
   bool running;
 } state_st;
 
+
+
+
+void free_state(state_st *state);
 
 
 #endif

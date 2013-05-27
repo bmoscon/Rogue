@@ -64,6 +64,7 @@ static void game_init(state_st *state)
   if (!state->game) {
     endwin();
     fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
+    free_state(state); 
     exit(EXIT_FAILURE);
   }
       
@@ -71,6 +72,7 @@ static void game_init(state_st *state)
   if (!state->help) {
     endwin();
     fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
+    free_state(state); 
     exit(EXIT_FAILURE);
   }
 
@@ -79,6 +81,7 @@ static void game_init(state_st *state)
   if(has_colors() == false) {
     endwin();
     fprintf(stderr, "Your terminal does not support color\n");
+    free_state(state); 
     exit(EXIT_FAILURE);
   }
   start_color();
@@ -91,7 +94,7 @@ static void game_init(state_st *state)
 
 static void draw(state_st *state)
 {
-  drawRoom(0, 0, LINES-1, COLS-1, state->game);
+  draw_room(0, 0, LINES-1, COLS, state->game);
 }
 
 static bool running(state_st *state)
@@ -99,16 +102,22 @@ static bool running(state_st *state)
   return (state->running);
 }
 
+
+
 static void welcome(state_st *state)
 {
-
+  draw_welcome_box(state->game);
+  refresh();
+  name_handler(state);
   //once we are done getting rogue's name, turn off echo
   noecho();
+  // clear the screen
+  wclear(state->game);
 }
 
 int main()
 {
-  state_st state;
+  state_st state = {};
   
   // set locale, otherwise we cant use unicode characters for the walls
   setlocale(LC_ALL, "");
@@ -137,6 +146,8 @@ int main()
   
   
  
-  endwin(); 
+  endwin();
+  
+  free_state(&state); 
   return (EXIT_SUCCESS);
 }

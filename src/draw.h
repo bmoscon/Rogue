@@ -50,8 +50,10 @@
 
 #include <ncurses.h>
 
-void drawBox(int, int, int, int, WINDOW*);
-void drawRoom(int, int, int, int, WINDOW*);
+void draw_box(int, int, int, int, WINDOW*);
 
+void draw_room(int, int, int, int, WINDOW*);
+
+void draw_welcome_box(WINDOW*);
 
 #endif

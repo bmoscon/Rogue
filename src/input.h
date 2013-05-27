@@ -57,6 +57,7 @@
 
 void input_handler(state_st *state);
 
+void name_handler(state_st *state);
 
 
 #endif

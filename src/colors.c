@@ -55,6 +55,9 @@ void init_colors()
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
+  init_pair(4, COLOR_GREEN, COLOR_BLACK);
+  init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+  init_pair(6, COLOR_BLACK, COLOR_WHITE);
 }
 
 void color_wall()
@@ -72,3 +75,15 @@ void color_text()
 {
   attrset(COLOR_PAIR(3));
 }
+
+void color_title()
+{
+  attrset(COLOR_PAIR(6));
+}
+
+void color_copyright()
+{
+  attrset(COLOR_PAIR(5));
+}
+
+

@@ -56,6 +56,8 @@ void init_colors();
 void color_wall();
 void color_floor();
 void color_text();
+void color_title();
+void color_copyright();
 
 
 #endif

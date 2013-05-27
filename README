@@ -1,1 +1,5 @@
 A rogue clone, written in C, using NCurses
+
+Because I have had difficulty getting codepage 437 to display in the default
+Ubuntu terminal, this uses unicode characters. I've tested it in the Ubuntu 
+terminal, and rxvt-unicode. Other terminals may or may not work.
