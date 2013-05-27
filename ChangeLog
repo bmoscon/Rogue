@@ -4,6 +4,7 @@ rogue - 0.0.4 - May 27, 2013
 	* roll rogue
 	* display stats bar on bottom of screen
 	* check for min term size
+	* 'Game Start' milestone completed
 
 rogue - 0.0.3 - May 26, 2013
 	* basic gameloop
