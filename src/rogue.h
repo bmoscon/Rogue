@@ -51,6 +51,12 @@
 
 #include <ncurses.h>
 #include <stdbool.h>
+#include <stdint.h>
+
+
+#define MIN_COL 80
+#define MIN_ROW 24
+
 
 // Game State
 typedef struct state_st {
@@ -59,6 +65,17 @@ typedef struct state_st {
   
   // rogue's name
   char *name;
+
+  // stats
+  uint32_t hp;
+  uint32_t hp_max;
+  uint32_t str;
+  uint32_t str_max;
+  uint32_t armor;
+  
+  uint32_t gold;
+  uint32_t level;
+  uint32_t rank;
   
   
   bool running;
@@ -68,6 +85,8 @@ typedef struct state_st {
 
 
 void free_state(state_st *state);
+
+void roll_rogue(state_st *state);
 
 
 #endif

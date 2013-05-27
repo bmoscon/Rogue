@@ -50,10 +50,15 @@
 
 #include <ncurses.h>
 
+#include "rogue.h"
+
 void draw_box(int, int, int, int, WINDOW*);
 
 void draw_room(int, int, int, int, WINDOW*);
 
 void draw_welcome_box(WINDOW*);
+
+void draw_stats(state_st *state);
+
 
 #endif

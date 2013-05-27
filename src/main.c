@@ -76,6 +76,14 @@ static void game_init(state_st *state)
     exit(EXIT_FAILURE);
   }
 
+  if (LINES < MIN_ROW || COLS < MIN_COL) {
+    endwin();
+    fprintf(stderr, "Your terminal is too small. Minimum supported dimensions are %dx%d\n", 
+	    MIN_COL, MIN_ROW);
+    free_state(state); 
+    exit(EXIT_FAILURE);
+  }
+
   curs_set(0);
 
   if(has_colors() == false) {
@@ -90,10 +98,13 @@ static void game_init(state_st *state)
   // allow us to catch the arrow keys
   keypad(state->game, TRUE);
 
+  state->running = true;
+
 }
 
 static void draw(state_st *state)
 {
+  draw_stats(state);
   draw_room(0, 0, LINES-1, COLS, state->game);
 }
 
@@ -111,6 +122,10 @@ static void welcome(state_st *state)
   name_handler(state);
   //once we are done getting rogue's name, turn off echo
   noecho();
+  
+  //roll rogue
+  roll_rogue(state);
+  
   // clear the screen
   wclear(state->game);
 }
@@ -122,14 +137,11 @@ int main()
   // set locale, otherwise we cant use unicode characters for the walls
   setlocale(LC_ALL, "");
 
-  // set up game
+  // set up game state
   game_init(&state);
 
-  // welcome screen. get rogue's name
+  // welcome screen. get rogue's name, roll rogue
   welcome(&state);
-  
-  // roll character
-  //rogue_init(&state);
 
   // game loop
   do {

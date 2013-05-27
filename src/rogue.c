@@ -46,6 +46,7 @@
  */
 
 #include <stdlib.h>
+#include <time.h>
 
 
 #include "rogue.h"
@@ -55,4 +56,27 @@ void free_state(state_st *state)
   if (state->name) {
     free(state->name);
   }
+}
+
+
+void roll_rogue(state_st *state)
+{
+  srand(time(NULL));
+  
+  // strength should be between 9 and 12
+  state->str_max = 9 + (rand() % 3);
+  state->str = state->str_max;
+
+  // hp should be between 10 and 15
+  state->hp_max = 10 + (rand() % 5);
+  state->hp = state->hp_max;
+
+  // set up default inventory items and equip wep + armor
+  // items should be food, 5 armor item, +0,+0 mace, 10 arrows
+  state->armor = 5;
+
+  // init other values
+  state->gold = 0;
+  state->level = 1;
+  state->rank = 1;
 }

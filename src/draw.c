@@ -199,7 +199,38 @@ void draw_welcome_box(WINDOW *win)
   wmove(win, LINES-2, 1);
   color_text();
   waddstr(win, "Rogue's Name: ");
+  
+}
 
+
+void draw_stats(state_st *state)
+{
+  color_text();
+  wmove(state->game, LINES-1, 0);
+  wprintw(state->game, "Level:%d", state->level);
+
+  wmove(state->game, LINES-1, 10);
+  wprintw(state->game, "Hits:%d(%d)", state->hp, state->hp_max);
+
+  wmove(state->game, LINES-1, 26);
+  wprintw(state->game, "Str:%d(%d)", state->str, state->str_max);
   
-  
+  wmove(state->game, LINES-1, 40);
+  wprintw(state->game, "Gold:%d", state->gold);
+
+  wmove(state->game, LINES-1, 51);
+  wprintw(state->game, "Armor:%d", state->armor);
+
+  wmove(state->game, LINES-1, 64);
+  switch(state->rank) {
+    case 1:
+      waddstr(state->game, "Initiate");
+      break;
+    case 2:
+      waddstr(state->game, "Apprentice");
+      break;
+    default:
+      break;
+  }
+
 }
