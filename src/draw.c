@@ -234,3 +234,21 @@ void draw_stats(state_st *state)
   }
 
 }
+
+void draw_message(state_st *state)
+{
+  int i;
+
+  color_text();
+
+  wmove(state->game, 0, 0);
+  if (state->message[0] == 0) {
+    for (i = 0; i < COLS; ++i) {
+      waddstr(state->game, " ");
+    }
+  } else {
+    waddstr(state->game, state->message);
+  }
+  
+  memset(state->message, 0, sizeof(state->message));
+}

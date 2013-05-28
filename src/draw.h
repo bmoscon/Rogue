@@ -60,5 +60,7 @@ void draw_welcome_box(WINDOW*);
 
 void draw_stats(state_st *state);
 
+void draw_message(state_st *state);
+
 
 #endif

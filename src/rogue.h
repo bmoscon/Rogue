@@ -62,6 +62,9 @@
 typedef struct state_st {
   WINDOW *game;
   WINDOW *help;
+
+  // current game message
+  char message[MIN_COL]; 
   
   // rogue's name
   char *name;

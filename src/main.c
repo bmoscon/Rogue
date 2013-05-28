@@ -105,7 +105,8 @@ static void game_init(state_st *state)
 static void draw(state_st *state)
 {
   draw_stats(state);
-  draw_room(0, 0, LINES-1, COLS, state->game);
+  draw_message(state);
+  draw_room(0, 1, LINES-2, COLS, state->game);
 }
 
 static bool running(state_st *state)
@@ -128,6 +129,10 @@ static void welcome(state_st *state)
   
   // clear the screen
   wclear(state->game);
+  
+  // add welcome message to first level screen
+  snprintf(state->message, sizeof(state->message), "Hello %s. Welcome to the Dungeons of Doom!", 
+	   state->name);
 }
 
 int main()
