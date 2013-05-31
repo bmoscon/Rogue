@@ -44,13 +44,14 @@
  * THE SOFTWARE.
  *
  */
-
 #ifndef __ROGUE_DRAW__
 #define __ROGUE_DRAW__
 
-#include <ncurses.h>
+
+#include <ncursesw/curses.h>
 
 #include "rogue.h"
+
 
 void draw_box(int, int, int, int, WINDOW*);
 
@@ -61,6 +62,10 @@ void draw_welcome_box(WINDOW*);
 void draw_stats(state_st *state);
 
 void draw_message(state_st *state);
+
+void draw_door(int, int, WINDOW*);
+
+void draw_rogue(int, int, WINDOW*);
 
 
 #endif

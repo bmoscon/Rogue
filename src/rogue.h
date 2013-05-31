@@ -44,12 +44,11 @@
  * THE SOFTWARE.
  *
  */
-
-
 #ifndef __ROGUE__
 #define __ROGUE__
 
-#include <ncurses.h>
+
+#include <ncursesw/curses.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -57,11 +56,44 @@
 #define MIN_COL 80
 #define MIN_ROW 24
 
+// set map size
+#define MAP_COL MIN_COL
+// - 2 because we reserve top row for messages
+// and bottom row for stats
+#define MAP_ROW MIN_ROW - 2
+
+// max number of doors per room
+#define MAX_DOORS 4
+
+
+typedef struct door_t {
+  int x;
+  int y;
+  bool hidden;
+} door_st;
+
+typedef struct room_t {
+  int x;
+  int y;
+  int x_len;
+  int y_len;
+  int num_doors;
+  door_st doors[MAX_DOORS];
+} room_st;
+
+
+typedef struct map_t {
+  int num_rooms;
+  room_st *rooms;
+} map_st;
+
 
 // Game State
 typedef struct state_st {
   WINDOW *game;
   WINDOW *help;
+
+  bool running;
 
   // current game message
   char message[MIN_COL]; 
@@ -80,8 +112,11 @@ typedef struct state_st {
   uint32_t level;
   uint32_t rank;
   
+  // rogue map position
+  int x;
+  int y;
   
-  bool running;
+  map_st map;
 } state_st;
 
 

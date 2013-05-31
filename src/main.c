@@ -44,17 +44,18 @@
  * THE SOFTWARE.
  *
  */
+#define _XOPEN_SOURCE_EXTENDED
 
 
 #include <locale.h>
 #include <stdlib.h>
-
 
 #include "rogue.h"
 #include "draw.h"
 #include "windows.h"
 #include "input.h"
 #include "colors.h"
+#include "level.h"
 
 
 static void game_init(state_st *state)
@@ -99,6 +100,7 @@ static void game_init(state_st *state)
   keypad(state->game, TRUE);
 
   state->running = true;
+  init_level(state);
 
 }
 
@@ -106,7 +108,7 @@ static void draw(state_st *state)
 {
   draw_stats(state);
   draw_message(state);
-  draw_room(0, 1, LINES-2, COLS, state->game);
+  draw_level(state);
 }
 
 static bool running(state_st *state)

@@ -44,12 +44,9 @@
  * THE SOFTWARE.
  *
  */
-
 #ifndef __ROGUE_INPUT__
 #define __ROGUE_INPUT__
 
-#include <ncurses.h>
-#include <stdlib.h>
 
 #include "rogue.h"
 

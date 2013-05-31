@@ -44,20 +44,24 @@
  * THE SOFTWARE.
  *
  */
-
-
 #ifndef __ROGUE_COLORS__
 #define __ROGUE_COLORS__
 
-#include <ncurses.h>
 
 void init_colors();
 
 void color_wall();
+
 void color_floor();
+
 void color_text();
+
 void color_title();
+
 void color_copyright();
+
+void color_rogue();
+
 
 
 #endif

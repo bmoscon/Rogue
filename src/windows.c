@@ -44,6 +44,8 @@
  * THE SOFTWARE.
  *
  */
+#define _XOPEN_SOURCE_EXTENDED
+
 
 #include "windows.h"
 

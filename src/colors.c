@@ -44,11 +44,11 @@
  * THE SOFTWARE.
  *
  */
+#define _XOPEN_SOURCE_EXTENDED
 
 
+#include <ncursesw/curses.h> 
 
-
-#include "colors.h"
 
 void init_colors()
 {
@@ -73,7 +73,7 @@ void color_floor()
 
 void color_text()
 {
-  attrset(COLOR_PAIR(3));
+  attrset(COLOR_PAIR(3) | A_BOLD);
 }
 
 void color_title()
@@ -83,7 +83,12 @@ void color_title()
 
 void color_copyright()
 {
-  attrset(COLOR_PAIR(5));
+  attrset(COLOR_PAIR(5) | A_BOLD);
+}
+
+void color_rogue()
+{
+  attrset(COLOR_PAIR(1) | A_BOLD);
 }
 
 

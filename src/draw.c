@@ -44,6 +44,8 @@
  * THE SOFTWARE.
  *
  */
+#define _XOPEN_SOURCE_EXTENDED
+
 
 #include <string.h>
 
@@ -138,7 +140,7 @@ void draw_room(int startx, int starty, int rows, int cols, WINDOW* win)
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
   attrset(COLOR_PAIR(2));
   // now fill the background
-  for (i = starty; i < rows - 1; ++i) {
+  for (i = starty; i < rows; ++i) {
     wmove(win, i, startx);
     for (j = startx; j < cols - 1; ++j) {
       addstr(".");
@@ -251,4 +253,20 @@ void draw_message(state_st *state)
   }
   
   memset(state->message, 0, sizeof(state->message));
+}
+
+
+void draw_door(int x, int y, WINDOW *win)
+{
+  color_wall();
+  wmove(win, y, x);
+  waddstr(win, "\u256C");
+}
+
+
+void draw_rogue(int x, int y, WINDOW *win)
+{
+  color_rogue();
+  wmove(win, y, x);
+  waddstr(win, "@");
 }

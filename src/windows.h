@@ -44,11 +44,11 @@
  * THE SOFTWARE.
  *
  */
-
 #ifndef __ROGUE_WINDOWS__
 #define __ROGUE_WINDOWS__
 
-#include <ncurses.h>
+
+#include <ncursesw/curses.h>
 #include <stdlib.h>
 
 

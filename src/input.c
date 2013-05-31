@@ -44,6 +44,8 @@
  * THE SOFTWARE.
  *
  */
+#define _XOPEN_SOURCE_EXTENDED
+
 
 #include <string.h>
 
@@ -88,11 +90,26 @@ static void help_handler(state_st *state)
   switch_win(state->game);
 }
 
-
+// x and y indicate in what direction we are moving. 
 static void move_handler(state_st *state, int x, int y)
 {
-  // x and y indicate in what direction we are moving. 
+  cchar_t c;
   
+  x += state->x;
+  y += state->y;
+
+  // get character from the screen
+  // this is the character we want to move on to
+  mvwin_wch(state->game, y, x, &c);
+
+  // check what character it is. is it a legal move?
+  // . is the floor, 0x256C is a door
+  if (c.chars[0] != '.' && c.chars[0] != 0x256C) {
+    return;
+  }
+  
+  state->x = x;
+  state->y = y;
 }
 
 
