@@ -86,9 +86,18 @@ void color_copyright()
   attrset(COLOR_PAIR(5) | A_BOLD);
 }
 
+void color_tunnel()
+{
+  attrset(COLOR_PAIR(3));
+}
+
 void color_rogue()
 {
   attrset(COLOR_PAIR(1) | A_BOLD);
 }
 
+void color_rogue_tunnel()
+{
+  attrset(COLOR_PAIR(6));
+}
 

@@ -1,3 +1,8 @@
+rogue - 0.0.7 - June 1, 2013
+	* Tunnel support
+	* Movement in tunnels
+	* Coloring for tunnels
+
 rogue - 0.0.6 - May 31, 2013
 	* More level drawing support
 	* Rogue can move now

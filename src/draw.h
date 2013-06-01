@@ -65,7 +65,9 @@ void draw_message(state_st *state);
 
 void draw_door(int, int, WINDOW*);
 
-void draw_rogue(int, int, WINDOW*);
+void draw_tunnel(int, int, WINDOW*);
+
+void draw_rogue(int, int, bool, WINDOW*);
 
 
 #endif

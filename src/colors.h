@@ -60,8 +60,11 @@ void color_title();
 
 void color_copyright();
 
+void color_tunnel();
+
 void color_rogue();
 
+void color_rogue_tunnel();
 
 
 #endif

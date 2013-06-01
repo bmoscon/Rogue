@@ -70,12 +70,28 @@ void init_level(state_st *state)
   state->map.rooms->doors[1].hidden = false;
   state->x = 1;
   state->y = 3;
+
+  state->map.num_tunnels = 1;
+  state->map.tunnels = malloc(sizeof(tunnel_st));
+  state->map.tunnels->coords = malloc(sizeof(coord_st) * 5);
+  state->map.tunnels->len = 5;
+  state->map.tunnels->coords[0].x = 5;
+  state->map.tunnels->coords[0].y = 2;
+  state->map.tunnels->coords[1].x = 6;
+  state->map.tunnels->coords[1].y = 2;
+  state->map.tunnels->coords[2].x = 7;
+  state->map.tunnels->coords[2].y = 2;
+  state->map.tunnels->coords[3].x = 8;
+  state->map.tunnels->coords[3].y = 2;
+  state->map.tunnels->coords[4].x = 9;
+  state->map.tunnels->coords[4].y = 2; 
 }
 
 void draw_level(state_st *state)
 {
   int i;
   int j;
+  bool tunnel = false;
   WINDOW *win = state->game;
   map_st *map = &(state->map);
 
@@ -91,7 +107,17 @@ void draw_level(state_st *state)
     }
   }
 
+  // draw tunnel
+  for (i = 0; i < map->num_tunnels; ++i) {
+    for (j = 0; j < map->tunnels[i].len; ++j) {
+      if (state->x == map->tunnels[i].coords[j].x && state->y == map->tunnels[i].coords[j].y) {
+	tunnel = true;
+      } 
+
+      draw_tunnel(map->tunnels[i].coords[j].x, map->tunnels[i].coords[j].y, win);
+    }
+  }
+  
   // draw rogue
-  draw_rogue(state->x, state->y, win);
- 
+  draw_rogue(state->x, state->y, tunnel, win);
 }

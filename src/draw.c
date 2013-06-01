@@ -264,9 +264,22 @@ void draw_door(int x, int y, WINDOW *win)
 }
 
 
-void draw_rogue(int x, int y, WINDOW *win)
+void draw_tunnel(int x, int y, WINDOW *win)
 {
-  color_rogue();
+  color_tunnel();
+  wmove(win, y, x);
+  waddstr(win, "\u2588");
+}
+
+
+void draw_rogue(int x, int y, bool tunnel, WINDOW *win)
+{
+  if (tunnel) {
+    color_rogue_tunnel();
+  } else {
+    color_rogue();
+  }
+  
   wmove(win, y, x);
   waddstr(win, "@");
 }

@@ -104,7 +104,7 @@ static void move_handler(state_st *state, int x, int y)
 
   // check what character it is. is it a legal move?
   // . is the floor, 0x256C is a door
-  if (c.chars[0] != '.' && c.chars[0] != 0x256C) {
+  if (c.chars[0] != '.' && c.chars[0] != 0x256C && c.chars[0] != 0x2588) {
     return;
   }
   
