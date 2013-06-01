@@ -51,6 +51,7 @@
 
 #include "draw.h"
 #include "colors.h"
+#include "chars.h"
 
 
 static void center_text(int row, const char *text, WINDOW *win)
@@ -60,7 +61,7 @@ static void center_text(int row, const char *text, WINDOW *win)
   indent = COLS - strlen(text);
   indent /= 2;
   
-  mvaddstr(row, indent, text);
+  mvwaddstr(win, row, indent, text);
 }
 
 static void horiz_line(int x, int y, int len, WINDOW *win)
@@ -70,7 +71,7 @@ static void horiz_line(int x, int y, int len, WINDOW *win)
   wmove(win, y, x);
 
   for(i = 0; i < len; ++i) {
-    waddstr(win, "\u2550");
+    waddstr(win, HORIZU);
   } 
 
 }
@@ -81,52 +82,34 @@ static void vert_line(int x, int y, int len, WINDOW *win)
   
   for (i = 0; i < len; ++i) {
     wmove(win, y+i, x);
-    addstr("\u2551");
+    waddstr(win, VERTU);
   }
 }
 
 void draw_box(int startx, int starty, int rows, int cols, WINDOW* win)
 {
-  int i;
-
   color_wall();
-
   wmove(win, starty, startx);
   
-  addstr("\u2554");
-  
-  for(i = 2; i < cols; ++i) {
-    addstr("\u2550");
-  } 
+  waddstr(win, TLCORNERU);
+  horiz_line(startx+1, starty, cols-2, win);
+  waddstr(win, TRCORNERU);
 
-  addstr("\u2557");
 
-  for (i = 2; i < rows; ++i) {
-    wmove(win, starty+i-1, startx);
-    addstr("\u2551");
-    
-    wmove(win, starty+i-1, startx+cols-1);
-    addstr("\u2551");
-  }
+  vert_line(startx, starty+1, rows-2, win);
+  vert_line(startx+cols-1, starty+1, rows-2, win);
+
   
-  wmove(win, starty+rows-1, startx);
-  
-  addstr("\u255A");
-  
-  for(i = 2; i < cols; ++i) {
-    addstr("\u2550");
-  } 
-  
-  addstr("\u255D");
+  wmove(win, starty+rows-1, startx);  
+  waddstr(win, BLCORNERU);
+  horiz_line(startx+1, starty+rows-1, rows-2, win);
+  waddstr(win, BRCORNERU);
 }
 
 
 void draw_room(int startx, int starty, int rows, int cols, WINDOW* win)
 {
   int i, j;
-
-  color_floor();
-
   // dark room? if so, don't draw anything except in the coordinates
   // directly next to the hero
 
@@ -137,23 +120,14 @@ void draw_room(int startx, int starty, int rows, int cols, WINDOW* win)
   startx++;
   starty++;
 
-  init_pair(2, COLOR_GREEN, COLOR_BLACK);
-  attrset(COLOR_PAIR(2));
+  color_floor();
   // now fill the background
   for (i = starty; i < rows; ++i) {
     wmove(win, i, startx);
     for (j = startx; j < cols - 1; ++j) {
-      addstr(".");
+      waddstr(win, FLOORU);
     }
   }
-
-  // draw doors
-
-  // draw objects
-
-  // draw monsters
-
-
 }
 
 
@@ -164,9 +138,9 @@ void draw_welcome_box(WINDOW *win)
   wmove(win, 0, 0);
   
   // top line (+ corners)
-  waddstr(win, "\u2554");
+  waddstr(win, TLCORNERU);
   horiz_line(1, 0, COLS-2, win);
-  waddstr(win, "\u2557");
+  waddstr(win, TRCORNERU);
 
   //sides
   vert_line(0, 1, LINES-3, win);
@@ -175,18 +149,18 @@ void draw_welcome_box(WINDOW *win)
   wmove(win, LINES-3, 0);
   
   // draw left vertial with horizontal intersect
-  waddstr(win, "\u2560");
+  waddstr(win, LTEEU);
   wmove(win, LINES-3, COLS-1);
-  waddstr(win, "\u2563");
+  waddstr(win, RTEEU);
   horiz_line(1, LINES-3, COLS-2, win);
   vert_line(0, LINES-2, 1, win);
   vert_line(COLS-1, LINES-2, 1, win);
   
   // bottom line
   wmove(win, LINES-1, 0);
-  waddstr(win, "\u255A");
+  waddstr(win, BLCORNERU);
   horiz_line(1, LINES-1, COLS-2, win);
-  waddstr(win, "\u255D");
+  waddstr(win, BRCORNERU);
 
   //print out the title
   color_title();
@@ -260,7 +234,7 @@ void draw_door(int x, int y, WINDOW *win)
 {
   color_wall();
   wmove(win, y, x);
-  waddstr(win, "\u256C");
+  waddstr(win, DOORU);
 }
 
 
@@ -268,7 +242,7 @@ void draw_tunnel(int x, int y, WINDOW *win)
 {
   color_tunnel();
   wmove(win, y, x);
-  waddstr(win, "\u2588");
+  waddstr(win, TUNNELU);
 }
 
 
@@ -281,5 +255,5 @@ void draw_rogue(int x, int y, bool tunnel, WINDOW *win)
   }
   
   wmove(win, y, x);
-  waddstr(win, "@");
+  waddstr(win, ROGUEU);
 }

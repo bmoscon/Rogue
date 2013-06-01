@@ -52,6 +52,7 @@
 #include "input.h"
 #include "colors.h"
 #include "windows.h"
+#include "chars.h"
 
 
 static void quit_handler(state_st *state)
@@ -59,15 +60,15 @@ static void quit_handler(state_st *state)
   int i;
 
   // clear text area
-  move(LINES-1, 0);
+  wmove(state->game, LINES-1, 0);
   for (i = 0; i < COLS; ++i) {
-    delch();
+    wdelch(state->game);
   }
   refresh();
   
   // set color
   color_text();
-  addstr("Are you sure you want to quit (y/n)?");
+  waddstr(state->game, "Are you sure you want to quit (y/n)?");
   
   i = getch();
   
@@ -75,11 +76,11 @@ static void quit_handler(state_st *state)
     state->running = false;
   } else {
     // replace with old text (i.e. stats)
-    move(LINES-1, 0);
+    wmove(state->game, LINES-1, 0);
     for (i = 0; i < COLS; ++i) {
-      delch();
+      wdelch(state->game);
     }
-    refresh();
+    wrefresh(state->game);
   }
 }
 
@@ -103,8 +104,7 @@ static void move_handler(state_st *state, int x, int y)
   mvwin_wch(state->game, y, x, &c);
 
   // check what character it is. is it a legal move?
-  // . is the floor, 0x256C is a door
-  if (c.chars[0] != '.' && c.chars[0] != 0x256C && c.chars[0] != 0x2588) {
+  if (c.chars[0] != FLOOR && c.chars[0] != TUNNEL && c.chars[0] != DOOR) {
     return;
   }
   
@@ -159,7 +159,7 @@ void name_handler(state_st *state)
 {
   char input[64];
   
-  getnstr(input, sizeof(input));
+  wgetnstr(state->game, input, sizeof(input));
 
   state->name = strdup(input);
   if (!state->name) {

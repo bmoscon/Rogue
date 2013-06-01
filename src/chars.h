@@ -1,8 +1,8 @@
 /*
- * rogue.c
+ * chars.h
  *
  *
- * definitions for the game
+ * ASCII character abstraction
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -44,54 +44,71 @@
  * THE SOFTWARE.
  *
  */
-#define _XOPEN_SOURCE_EXTENDED
+#ifndef __ROGUE_CHARS__
+#define __ROGUE_CHARS__
 
 
-#include <stdlib.h>
-#include <time.h>
-
-#include "rogue.h"
-
-
-void free_state(state_st *state)
-{
-  int i;
-
-  if (state->name) {
-    free(state->name);
-  }
-
-  if (state->map.rooms) {
-    free(state->map.rooms);
-  }
-
-  if (state->map.tunnels) {
-    for (i = 0; i < state->map.num_tunnels; ++i) {
-      free(state->map.tunnels[i].coords);
-    }
-    free(state->map.tunnels);
-  }
-}
+// horizontal double line
+#define HORIZ 0x2550
+// for unicode 
+#define HORIZU "\u2550"
 
 
-void roll_rogue(state_st *state)
-{
-  srand(time(NULL));
-  
-  // strength should be between 9 and 12
-  state->str_max = 9 + (rand() % 3);
-  state->str = state->str_max;
+// vertical double line
+#define VERT 0x2551
+#define VERTU "\u2551"
 
-  // hp should be between 10 and 15
-  state->hp_max = 10 + (rand() % 5);
-  state->hp = state->hp_max;
 
-  // set up default inventory items and equip wep + armor
-  // items should be food, 5 armor item, +0,+0 mace, 10 arrows
-  state->armor = 5;
+// top left corner 
+#define TLCORNER 0x2554
+#define TLCORNERU "\u2554"
 
-  // init other values
-  state->gold = 0;
-  state->level = 1;
-  state->rank = 1;
-}
+
+// top right corner
+#define TRCORNER 0x2557
+#define TRCORNERU "\u2557"
+
+
+// bottom left corner
+#define BLCORNER 0x255A
+#define BLCORNERU "\u255A"
+
+
+// bottom right corner
+#define BRCORNER 0x255D
+#define BRCORNERU "\u255D"
+
+
+// left T
+#define LTEE 0x2560
+#define LTEEU "\u2560"
+
+
+// right T
+#define RTEE 0x2563
+#define RTEEU "\u2563"
+
+
+// door
+#define DOOR 0x256C
+#define DOORU "\u256C"
+
+
+// floor
+#define FLOOR 0x2E
+#define FLOORU "\x2E"
+
+
+// tunnel
+#define TUNNEL 0x2588
+#define TUNNELU "\u2588"
+
+
+// rogue
+#define ROGUE 0x40
+#define ROGUEU "\u0040"
+
+
+
+
+#endif

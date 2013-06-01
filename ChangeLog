@@ -2,6 +2,9 @@ rogue - 0.0.7 - June 1, 2013
 	* Tunnel support
 	* Movement in tunnels
 	* Coloring for tunnels
+	* clean up in draw functions
+	* abstract the character codes into chars.h
+	* clean up malloc'd memory
 
 rogue - 0.0.6 - May 31, 2013
 	* More level drawing support
