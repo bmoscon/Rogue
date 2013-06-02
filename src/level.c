@@ -51,22 +51,24 @@
 
 #include "level.h"
 #include "draw.h"
+#include "items.h"
 
 
 void init_level(state_st *state)
 {
+  state->map.stairs.x = 1;
+  state->map.stairs.y = 2;
   state->map.num_rooms = 1;
   state->map.rooms = malloc(sizeof(room_st));
-  state->map.rooms->x = 0;
-  state->map.rooms->y = 1;
+  state->map.rooms->coord.x = 0;
+  state->map.rooms->coord.y = 1;
   state->map.rooms->x_len = 5;
   state->map.rooms->y_len = 5;
-  state->map.rooms->num_doors = 2;
-  state->map.rooms->doors[0].x = 2;
-  state->map.rooms->doors[0].y = 5;
+  state->map.rooms->doors[0].coord.x = 2;
+  state->map.rooms->doors[0].coord.y = 5;
   state->map.rooms->doors[0].hidden = false;
-  state->map.rooms->doors[1].x = 4;
-  state->map.rooms->doors[1].y = 2;
+  state->map.rooms->doors[1].coord.x = 4;
+  state->map.rooms->doors[1].coord.y = 2;
   state->map.rooms->doors[1].hidden = false;
   state->x = 1;
   state->y = 3;
@@ -85,25 +87,42 @@ void init_level(state_st *state)
   state->map.tunnels->coords[3].y = 2;
   state->map.tunnels->coords[4].x = 9;
   state->map.tunnels->coords[4].y = 2; 
+
+  state->map.rooms[0].items[0].coord.x = 3;
+  state->map.rooms[0].items[0].coord.y = 3;
+  state->map.rooms[0].items[0].type = I_GOLD;
 }
 
-void draw_level(state_st *state)
+void draw_level(const state_st *state)
 {
   int i;
   int j;
+  int r;
   bool tunnel = false;
   WINDOW *win = state->game;
-  map_st *map = &(state->map);
+  const map_st *map = &(state->map);
+  
+
+  r = get_room(state->x, state->y, state);
 
   for (i = 0; i < map->num_rooms; ++i) {
-    if (!map->rooms->doors[i].hidden) {
-      draw_room(map->rooms[i].x, map->rooms[i].y, map->rooms[i].x_len, map->rooms[i].y_len, win);
-      
-      for (j = 0; j < map->rooms->num_doors; ++j) {
-	if (!map->rooms[i].doors[j].hidden) {
-	  draw_door(map->rooms[i].doors[j].x, map->rooms[i].doors[j].y, win);
-	}
-      } 
+    // draw room
+    draw_room(map->rooms[i].coord.x, map->rooms[i].coord.y, map->rooms[i].x_len, 
+	      map->rooms[i].y_len, (i == r), win);
+    
+    // draw doors on room
+    for (j = 0; map->rooms->doors[j].coord.x && map->rooms->doors[j].coord.y; ++j) {
+      if (!map->rooms[i].doors[j].hidden) {
+	draw_door(map->rooms[i].doors[j].coord.x, map->rooms[i].doors[j].coord.y, win);
+      }
+    }
+    
+    if (r == i) {
+      // draw objects in room
+      for (j = 0; j < MAX_ITEMS; ++j) {
+	draw_items(map->rooms[i].items[j].coord.x, map->rooms[i].items[j].coord.y, 
+		   map->rooms[i].items[j].type, win);
+      }
     }
   }
 
@@ -117,7 +136,55 @@ void draw_level(state_st *state)
       draw_tunnel(map->tunnels[i].coords[j].x, map->tunnels[i].coords[j].y, win);
     }
   }
+
+  //draw stairs
+  if (in_room(map->stairs.x, map->stairs.y, r, state)) {
+    draw_stairs(map->stairs.x, map->stairs.y, win);
+  }
   
   // draw rogue
   draw_rogue(state->x, state->y, tunnel, win);
+}
+
+/* check if the specified x,y coordinates are in a given room 
+ *
+ * x      IN - X coordinate we are checking
+ * y      IN - Y coordinate we are checking
+ * room   IN - room # we are checking (element in room array in map_st)
+ * state  IN - the game state
+ *
+ * RETURNS - bool 
+ *     true if coordinate is within the room, false if not
+ * 
+ */
+bool in_room(int x, int y, int room, const state_st *state)
+{
+  const room_st *r = &(state->map.rooms[room]);
+
+  return (((x < (r->coord.x + r->x_len)) && (x >= r->coord.x)) && 
+	  ((y < (r->coord.y + r->y_len)) && (y >= r->coord.y)));
+}
+
+
+/* get room # for the x, y coordinates 
+ *
+ * x      IN - X coordinate we are checking
+ * y      IN - Y coordinate we are checking
+ * state  IN - the game state
+ *
+ * RETURNS - int
+ *     element in the room_st array that contains the x,y coordinates
+ * 
+ */
+int get_room(int x, int y, const state_st *state)
+{
+  int i;
+  
+  for (i = 0; i < state->map.num_rooms; ++i) {
+    if (in_room(x, y, i, state)) {
+      return (i);
+    }
+  }
+  
+  return (-1);
 }

@@ -101,3 +101,13 @@ void color_rogue_tunnel()
   attrset(COLOR_PAIR(6));
 }
 
+void color_stairs()
+{
+  attrset(COLOR_PAIR(4) | A_BOLD);
+}
+
+
+void color_gold()
+{
+  attrset(COLOR_PAIR(1) | A_BOLD);
+}

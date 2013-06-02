@@ -53,10 +53,11 @@
 
 void init_level(state_st *state);
 
-void draw_level(state_st *state);
+void draw_level(const state_st *state);
 
+bool in_room(int x, int y, int room, const state_st *state);
 
-
+int get_room(int x, int y, const state_st *state);
 
 
 #endif

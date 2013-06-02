@@ -111,7 +111,7 @@ static void draw(state_st *state)
   draw_level(state);
 }
 
-static bool running(state_st *state)
+static bool running(const state_st *state)
 {
   return (state->running);
 }
@@ -152,6 +152,7 @@ int main()
 
   // game loop
   do {
+    wclear(state.game);
     // draw
     draw(&state);
     

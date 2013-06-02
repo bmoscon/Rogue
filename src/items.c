@@ -1,8 +1,8 @@
 /*
- * draw.h
+ * items.c
  *
  *
- * draw routines
+ * items
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -44,33 +44,27 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __ROGUE_DRAW__
-#define __ROGUE_DRAW__
+#define _XOPEN_SOURCE_EXTENDED
 
 
-#include <ncursesw/curses.h>
-
-#include "rogue.h"
+#include "items.h"
 
 
-void draw_box(int, int, int, int, WINDOW*);
 
-void draw_room(int, int, int, int, bool, WINDOW*);
+void remove_item(state_st *state, int room, items_e item)
+{
+  int i;
+  
+  for (i = 0; i < MAX_ITEMS; ++i) {
+    if (state->map.rooms[room].items[i].coord.x == state->x && 
+	state->map.rooms[room].items[i].coord.y == state->y) {
+      if (item == state->map.rooms[room].items[i].type) {
+	state->map.rooms[room].items[i].type = I_NONE;
+	state->map.rooms[room].items[i].coord.x = 0;
+	state->map.rooms[room].items[i].coord.y = 0;
+	break;
+      }
+    }
+  }
+}
 
-void draw_welcome_box(WINDOW*);
-
-void draw_stats(const state_st *state);
-
-void draw_message(state_st *state);
-
-void draw_door(int, int, WINDOW*);
-
-void draw_tunnel(int, int, WINDOW*);
-
-void draw_rogue(int, int, bool, WINDOW*);
-
-void draw_stairs(int, int, WINDOW*);
-
-void draw_items(int, int, items_e, WINDOW*);
-
-#endif

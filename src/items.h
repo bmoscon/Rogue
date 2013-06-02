@@ -1,8 +1,8 @@
 /*
- * draw.h
+ * items.h
  *
  *
- * draw routines
+ * items
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -44,33 +44,15 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __ROGUE_DRAW__
-#define __ROGUE_DRAW__
+#ifndef __ROGUE_ITEMS__
+#define __ROGUE_ITEMS__
 
-
-#include <ncursesw/curses.h>
 
 #include "rogue.h"
 
 
-void draw_box(int, int, int, int, WINDOW*);
+void remove_item(state_st *state, int room, items_e item);
 
-void draw_room(int, int, int, int, bool, WINDOW*);
 
-void draw_welcome_box(WINDOW*);
-
-void draw_stats(const state_st *state);
-
-void draw_message(state_st *state);
-
-void draw_door(int, int, WINDOW*);
-
-void draw_tunnel(int, int, WINDOW*);
-
-void draw_rogue(int, int, bool, WINDOW*);
-
-void draw_stairs(int, int, WINDOW*);
-
-void draw_items(int, int, items_e, WINDOW*);
 
 #endif

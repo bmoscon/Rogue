@@ -66,5 +66,10 @@ void color_rogue();
 
 void color_rogue_tunnel();
 
+void color_stairs();
+
+void color_gold();
+
+
 
 #endif

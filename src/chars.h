@@ -109,6 +109,16 @@
 #define ROGUEU "\u0040"
 
 
+// stairs
+#define STAIRS 0x018E
+#define STAIRSU "\u018E"
+
+
+// gold
+#define GOLD 0x2A
+#define GOLDU "\x2A"
+
+
 
 
 #endif

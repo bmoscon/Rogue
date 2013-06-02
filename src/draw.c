@@ -107,7 +107,7 @@ void draw_box(int startx, int starty, int rows, int cols, WINDOW* win)
 }
 
 
-void draw_room(int startx, int starty, int rows, int cols, WINDOW* win)
+void draw_room(int startx, int starty, int rows, int cols, bool floor, WINDOW* win)
 {
   int i, j;
   // dark room? if so, don't draw anything except in the coordinates
@@ -119,13 +119,14 @@ void draw_room(int startx, int starty, int rows, int cols, WINDOW* win)
   
   startx++;
   starty++;
-
-  color_floor();
-  // now fill the background
-  for (i = starty; i < rows; ++i) {
-    wmove(win, i, startx);
-    for (j = startx; j < cols - 1; ++j) {
-      waddstr(win, FLOORU);
+  if (floor) {
+    color_floor();
+    // now fill the background
+    for (i = starty; i < rows; ++i) {
+      wmove(win, i, startx);
+      for (j = startx; j < cols - 1; ++j) {
+	waddstr(win, FLOORU);
+      }
     }
   }
 }
@@ -179,7 +180,7 @@ void draw_welcome_box(WINDOW *win)
 }
 
 
-void draw_stats(state_st *state)
+void draw_stats(const state_st *state)
 {
   color_text();
   wmove(state->game, LINES-1, 0);
@@ -256,4 +257,28 @@ void draw_rogue(int x, int y, bool tunnel, WINDOW *win)
   
   wmove(win, y, x);
   waddstr(win, ROGUEU);
+}
+
+
+void draw_stairs(int x, int y, WINDOW *win)
+{
+  color_stairs();
+  wmove(win, y, x);
+  waddstr(win, STAIRSU);
+}
+
+
+void draw_items(int x, int y, items_e item, WINDOW *win)
+{
+  switch(item) {
+    case I_GOLD:
+      color_gold();
+      wmove(win, y, x);
+      waddstr(win, GOLDU);
+      break;
+    default:
+      break;
+  }
+    
+  
 }

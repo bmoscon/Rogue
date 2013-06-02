@@ -65,24 +65,48 @@
 // max number of doors per room
 #define MAX_DOORS 4
 
+// max items per room
+#define MAX_ITEMS 5
+
+
+typedef enum {
+  I_NONE = 0,
+  I_GOLD,
+  I_SCROLL,
+  I_POTION,
+  I_WEAPON,
+  I_ARMOR,
+  I_RING,
+  I_FOOD,
+  I_WAND,
+  I_TRAP,
+  I_AMULET
+} items_e;
+
+
 typedef struct coord_st {
   int x;
   int y;
 } coord_st;
 
+
+typedef struct item_st {
+  coord_st coord;
+  items_e type;
+} item_st;
+
+
 typedef struct door_t {
-  int x;
-  int y;
+  coord_st coord;
   bool hidden;
 } door_st;
 
 typedef struct room_t {
-  int x;
-  int y;
+  coord_st coord;
   int x_len;
   int y_len;
-  int num_doors;
   door_st doors[MAX_DOORS];
+  item_st items[MAX_ITEMS];
 } room_st;
 
 typedef struct tunnel_st {
@@ -92,6 +116,7 @@ typedef struct tunnel_st {
 
 
 typedef struct map_t {
+  coord_st stairs;
   int num_rooms;
   int num_tunnels;
   room_st *rooms;

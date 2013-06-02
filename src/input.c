@@ -53,6 +53,8 @@
 #include "colors.h"
 #include "windows.h"
 #include "chars.h"
+#include "items.h"
+#include "level.h"
 
 
 static void quit_handler(state_st *state)
@@ -91,6 +93,25 @@ static void help_handler(state_st *state)
   switch_win(state->game);
 }
 
+
+static void item_handler(state_st *state, items_e item)
+{
+  uint32_t gold;
+  int room;
+  
+  if (item == I_GOLD) {
+    gold = 1 + (rand() % 25) + (state->level * rand() % 10);
+    snprintf(state->message, sizeof(state->message), "You found %d gold", gold);
+    state->gold += gold;
+  }
+
+
+  room = get_room(state->x, state->y, state);
+  remove_item(state, room, item);
+
+}
+
+
 // x and y indicate in what direction we are moving. 
 static void move_handler(state_st *state, int x, int y)
 {
@@ -104,12 +125,31 @@ static void move_handler(state_st *state, int x, int y)
   mvwin_wch(state->game, y, x, &c);
 
   // check what character it is. is it a legal move?
-  if (c.chars[0] != FLOOR && c.chars[0] != TUNNEL && c.chars[0] != DOOR) {
+  if (c.chars[0] != FLOOR && c.chars[0] != TUNNEL && 
+      c.chars[0] != DOOR && c.chars[0] != STAIRS &&
+      c.chars[0] != GOLD) {
     return;
   }
   
+  // we are allowing the move, update rogue position
   state->x = x;
   state->y = y;
+
+  // moving over an item? if so, collect it and remove it from the level
+  if (c.chars[0] == GOLD) {
+    item_handler(state, I_GOLD);
+  }
+}
+
+static void downstairs_handler(state_st *state)
+{
+  // next level
+}
+
+
+static void upstairs_handler(state_st *state)
+{
+  snprintf(state->message, sizeof(state->message), "The way is magically blocked");
 }
 
 
@@ -135,6 +175,12 @@ void input_handler(state_st *state)
       break;
     case 'h':
       help_handler(state);
+      break;
+    case '>':
+      downstairs_handler(state);
+      break;
+    case '<':
+      upstairs_handler(state);
       break;
     case KEY_DOWN:
       move_handler(state, 0, 1);
