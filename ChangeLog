@@ -1,3 +1,8 @@
+rogue - 0.0.8 - June 2, 2013
+	* Only show items/floor/etc for current room
+	* items support
+	* const changes
+
 rogue - 0.0.7 - June 1, 2013
 	* Tunnel support
 	* Movement in tunnels
