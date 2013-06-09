@@ -119,6 +119,49 @@
 #define GOLDU "\x2A"
 
 
+// scroll
+#define SCROLL 0x221E
+#define SCROLLU "\u221E"
+
+
+// potion
+#define POTION 0xA1
+#define POTIONU "\u00A1"
+
+
+// food
+#define FOOD 0x2663
+#define FOODU "\u2663"
+
+
+// armor
+#define ARMOR 0x25D8
+#define ARMORU "\u25D8"
+
+
+// amulet
+#define AMULET 0x2640
+#define AMULETU "\u2640"
+
+
+// trap
+#define TRAP 0x2666
+#define TRAPU "\u2666"
+
+
+// ring
+#define RING 0x00B0
+#define RINGU "\u00B0"
+
+
+// wand
+#define WAND 0x2320
+#define WANDU "\u2320"
+
+
+// weapon
+#define WEAPON 0x2191
+#define WEAPONU "\u2191"
 
 
 #endif

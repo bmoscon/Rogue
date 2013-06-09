@@ -270,11 +270,42 @@ void draw_stairs(int x, int y, WINDOW *win)
 
 void draw_items(int x, int y, items_e item, WINDOW *win)
 {
+  wmove(win, y, x);
+  color_item();
+
   switch(item) {
     case I_GOLD:
       color_gold();
-      wmove(win, y, x);
       waddstr(win, GOLDU);
+      break;
+    case I_SCROLL:
+      waddstr(win, SCROLLU);
+      break;
+    case I_POTION:
+      waddstr(win, POTIONU);
+      break;
+   case I_FOOD:
+      color_food();
+      waddstr(win, FOODU);
+      break;
+   case I_ARMOR:
+      waddstr(win, ARMORU);
+      break;
+   case I_AMULET:
+      waddstr(win, AMULETU);
+      break;
+   case I_TRAP:
+      color_trap();
+      waddstr(win, TRAPU);
+      break;
+   case I_RING:
+      waddstr(win, RINGU);
+      break;
+   case I_WAND:
+      waddstr(win, WANDU);
+      break;
+   case I_WEAPON:
+      waddstr(win, WEAPONU);
       break;
     default:
       break;

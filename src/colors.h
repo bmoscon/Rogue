@@ -70,6 +70,12 @@ void color_stairs();
 
 void color_gold();
 
+void color_food();
 
+void color_monster();
+
+void color_item();
+
+void color_trap();
 
 #endif

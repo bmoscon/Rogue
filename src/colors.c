@@ -58,56 +58,83 @@ void init_colors()
   init_pair(4, COLOR_GREEN, COLOR_BLACK);
   init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
   init_pair(6, COLOR_BLACK, COLOR_WHITE);
+  init_pair(7, COLOR_RED, COLOR_WHITE);
+  init_pair(8, COLOR_CYAN, COLOR_WHITE);
+  init_pair(9, COLOR_BLUE, COLOR_WHITE);
 }
 
-void color_wall()
+inline void color_wall()
 {
   attrset(COLOR_PAIR(1));
 }
 
 
-void color_floor()
+inline void color_floor()
 {
   attrset(COLOR_PAIR(2));
 }
 
-void color_text()
+inline void color_text()
 {
   attrset(COLOR_PAIR(3) | A_BOLD);
 }
 
-void color_title()
+inline void color_title()
 {
   attrset(COLOR_PAIR(6));
 }
 
-void color_copyright()
+inline void color_copyright()
 {
   attrset(COLOR_PAIR(5) | A_BOLD);
 }
 
-void color_tunnel()
+inline void color_tunnel()
 {
   attrset(COLOR_PAIR(3));
 }
 
-void color_rogue()
+inline void color_rogue()
 {
   attrset(COLOR_PAIR(1) | A_BOLD);
 }
 
-void color_rogue_tunnel()
+inline void color_rogue_tunnel()
 {
   attrset(COLOR_PAIR(6));
 }
 
-void color_stairs()
+inline void color_stairs()
 {
   attrset(COLOR_PAIR(4) | A_BOLD);
 }
 
 
-void color_gold()
+inline void color_gold()
 {
   attrset(COLOR_PAIR(1) | A_BOLD);
+}
+
+
+inline void color_food()
+{
+  attrset(COLOR_PAIR(7) | A_BOLD);
+}
+
+
+inline void color_monster()
+{
+  attrset(COLOR_PAIR(8) | A_BOLD);
+}
+
+
+inline void color_item()
+{
+  attrset(COLOR_PAIR(9) | A_BOLD);
+}
+
+
+inline void color_trap()
+{
+  attrset(COLOR_PAIR(5) | A_BOLD);
 }
