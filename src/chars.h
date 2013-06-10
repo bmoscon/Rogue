@@ -130,8 +130,8 @@
 
 
 // food
-#define FOOD 0x2663
-#define FOODU "\u2663"
+#define FOOD 0x00A4
+#define FOODU "\u00A4"
 
 
 // armor
@@ -140,23 +140,23 @@
 
 
 // amulet
-#define AMULET 0x2640
-#define AMULETU "\u2640"
+#define AMULET 0x0194
+#define AMULETU "\u0194"
 
 
 // trap
-#define TRAP 0x2666
-#define TRAPU "\u2666"
+#define TRAP 0x25CA
+#define TRAPU "\u25CA"
 
 
 // ring
-#define RING 0x00B0
-#define RINGU "\u00B0"
+#define RING 0x00BA
+#define RINGU "\u00BA"
 
 
 // wand
-#define WAND 0x2320
-#define WANDU "\u2320"
+#define WAND 0x017F
+#define WANDU "\u017F"
 
 
 // weapon

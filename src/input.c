@@ -99,10 +99,21 @@ static void item_handler(state_st *state, items_e item)
   uint32_t gold;
   int room;
   
-  if (item == I_GOLD) {
-    gold = 1 + (rand() % 25) + (state->level * rand() % 10);
-    snprintf(state->message, sizeof(state->message), "You found %d gold", gold);
-    state->gold += gold;
+  switch(item) {
+    case I_GOLD:
+      gold = 1 + (rand() % 25) + (state->level * rand() % 10);
+      snprintf(state->message, sizeof(state->message), "You found %d gold", gold);
+      state->gold += gold;
+      break;
+    case I_FOOD:
+      state->food++;
+      snprintf(state->message, sizeof(state->message), "You found some food.");
+      break;
+    case I_TRAP:
+      return;
+      
+  default:
+    break;
   }
 
 
@@ -127,7 +138,11 @@ static void move_handler(state_st *state, int x, int y)
   // check what character it is. is it a legal move?
   if (c.chars[0] != FLOOR && c.chars[0] != TUNNEL && 
       c.chars[0] != DOOR && c.chars[0] != STAIRS &&
-      c.chars[0] != GOLD) {
+      c.chars[0] != GOLD && c.chars[0] != SCROLL &&
+      c.chars[0] != POTION && c.chars[0] != FOOD &&
+      c.chars[0] != ARMOR && c.chars[0] != AMULET &&
+      c.chars[0] != TRAP && c.chars[0] != RING &&
+      c.chars[0] != WAND && c.chars[0] != WEAPON) {
     return;
   }
   
@@ -136,8 +151,8 @@ static void move_handler(state_st *state, int x, int y)
   state->y = y;
 
   // moving over an item? if so, collect it and remove it from the level
-  if (c.chars[0] == GOLD) {
-    item_handler(state, I_GOLD);
+  if (c.chars[0] != FLOOR && c.chars[0] != TUNNEL && c.chars[0] != DOOR && c.chars[0] != STAIRS) {
+    item_handler(state, c.chars[0]);
   }
 }
 
@@ -152,6 +167,21 @@ static void upstairs_handler(state_st *state)
   snprintf(state->message, sizeof(state->message), "The way is magically blocked");
 }
 
+
+static void inventory_handler(state_st *state)
+{
+  // clear previous entries on screen
+  wmove(state->inventory, 1, 0);
+  wclrtobot(state->inventory);
+
+  // populate inventory screen.
+
+
+  // switch
+  switch_win(state->inventory);
+  getch();
+  switch_win(state->game);
+}
 
 void input_handler(state_st *state)
 {
@@ -193,6 +223,9 @@ void input_handler(state_st *state)
       break;
     case KEY_LEFT:
       move_handler(state, -1, 0);
+      break;
+    case 'i':
+      inventory_handler(state);
       break;
     default:
       break;

@@ -62,15 +62,10 @@ static void game_init(state_st *state)
 {
   // set up windows
   state->game = init_gamew();
-  if (!state->game) {
-    endwin();
-    fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
-    free_state(state); 
-    exit(EXIT_FAILURE);
-  }
-      
   state->help = init_helpw();
-  if (!state->help) {
+  state->inventory = init_inventoryw();
+
+  if (!state->game || !state->help || !state->inventory) {
     endwin();
     fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
     free_state(state); 

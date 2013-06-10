@@ -78,6 +78,20 @@ WINDOW* init_helpw()
   return (help);
 }
 
+
+WINDOW* init_inventoryw()
+{ 
+  WINDOW *inv = newwin(0,0,0,0);
+  if (!inv) {
+    return (NULL);
+  }
+  
+  mvwaddstr(inv, 0, 0, "Rogue Inventory");
+  
+  return (inv);
+}
+
+
 void switch_win(WINDOW *win)
 {
   if (!win) {

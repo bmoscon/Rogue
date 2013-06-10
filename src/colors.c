@@ -58,9 +58,9 @@ void init_colors()
   init_pair(4, COLOR_GREEN, COLOR_BLACK);
   init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
   init_pair(6, COLOR_BLACK, COLOR_WHITE);
-  init_pair(7, COLOR_RED, COLOR_WHITE);
-  init_pair(8, COLOR_CYAN, COLOR_WHITE);
-  init_pair(9, COLOR_BLUE, COLOR_WHITE);
+  init_pair(7, COLOR_RED, COLOR_BLACK);
+  init_pair(8, COLOR_CYAN, COLOR_BLACK);
+  init_pair(9, COLOR_BLUE, COLOR_BLACK);
 }
 
 inline void color_wall()
@@ -118,7 +118,7 @@ inline void color_gold()
 
 inline void color_food()
 {
-  attrset(COLOR_PAIR(7) | A_BOLD);
+  attrset(COLOR_PAIR(7));
 }
 
 

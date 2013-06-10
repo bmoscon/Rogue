@@ -52,6 +52,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "chars.h"
+
 
 #define MIN_COL 80
 #define MIN_ROW 24
@@ -71,16 +73,16 @@
 
 typedef enum {
   I_NONE = 0,
-  I_GOLD,
-  I_SCROLL,
-  I_POTION,
-  I_WEAPON,
-  I_ARMOR,
-  I_RING,
-  I_FOOD,
-  I_WAND,
-  I_TRAP,
-  I_AMULET
+  I_GOLD = GOLD,
+  I_SCROLL = SCROLL,
+  I_POTION = POTION,
+  I_WEAPON = WEAPON,
+  I_ARMOR = ARMOR,
+  I_RING = RING,
+  I_FOOD = FOOD,
+  I_WAND = WAND,
+  I_TRAP = TRAP,
+  I_AMULET = AMULET
 } items_e;
 
 
@@ -128,6 +130,7 @@ typedef struct map_t {
 typedef struct state_st {
   WINDOW *game;
   WINDOW *help;
+  WINDOW *inventory;
 
   bool running;
 
@@ -147,6 +150,7 @@ typedef struct state_st {
   uint32_t gold;
   uint32_t level;
   uint32_t rank;
+  uint32_t food;
   
   // rogue map position
   int x;

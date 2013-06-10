@@ -90,7 +90,7 @@ void init_level(state_st *state)
 
   state->map.rooms[0].items[0].coord.x = 3;
   state->map.rooms[0].items[0].coord.y = 3;
-  state->map.rooms[0].items[0].type = I_GOLD;
+  state->map.rooms[0].items[0].type = I_TRAP;
 }
 
 void draw_level(const state_st *state)
