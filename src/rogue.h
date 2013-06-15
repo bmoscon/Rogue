@@ -70,6 +70,9 @@
 // max items per room
 #define MAX_ITEMS 5
 
+// inventory max
+#define INVENTORY_MAX 15
+
 
 typedef enum {
   I_NONE = 0,
@@ -86,43 +89,123 @@ typedef enum {
 } items_e;
 
 
+typedef enum {
+  BLINDNESS = 0,
+  CONFUSION,
+  EXTRA_HEALING,
+  STRENGTH,
+  HASTE,
+  HEALING,
+  MAGIC_DETECT,
+  MONSTER_DETECT,
+  PARALYZE,
+  POISON,
+  LEVEL_UP,
+  RESTORE_STRENGTH,
+  THIRST_QUENCH,
+  NO_MAGIC
+} potion_type_e;
+
+typedef enum {
+  ADD_STRENGTH,
+  AGG_MONSTER,
+  DEXTERITY,
+  ADD_DAMAGE,
+  ADD_ARMOR,
+  PROTECTION,
+  HEAL,
+  SEARCHING,
+  SLOW_DIGEST,
+  STEALTH,
+  SUSTAIN_STR,
+  ADORNMENT
+} ring_type_e;
+
+typedef enum {
+  AGG_MONSTERS,
+  CREATE_MONSTER,
+  ENCHANT_ARMOR,
+  ENCHANT_WEAPON,
+  FOOD_DETECT,
+  HOLD_MONSTER,
+  IDENTIFY,
+  MAP,
+  CONFUSE_MONSTER,
+  SCARE_MONSTER,
+  SLEEP,
+  TELEPORT,
+  REMOVE_CURSE,
+  BLANK
+} scroll_type_e;
+
+typedef enum {
+  REVEAL_MONSTER,
+  FREEZE,
+  LIFE_DRAIN,
+  HASTE_MONSTER,
+  LIGHT,
+  LIGHTNING,
+  MAGIC_MISSILE,
+  POLYMORPH,
+  SLOW,
+  STRIKING,
+  TELEPORT_AWAY,
+  TELEPORT_TO,
+  NOTHING
+} wand_type_e;
+
+
 typedef struct coord_st {
   int x;
   int y;
 } coord_st;
 
 
+typedef struct inv_slot_st {
+  items_e   type;
+  char      name[20];
+  union {
+    potion_type_e  p_type;
+    scroll_type_e  s_type;
+    ring_type_e    r_type;
+    wand_type_e    w_type;
+    char           dice[3];
+  } attr;
+
+} inv_slot_st;
+
+
 typedef struct item_st {
-  coord_st coord;
-  items_e type;
+  coord_st  coord;
+  items_e   type;
 } item_st;
 
 
 typedef struct door_t {
-  coord_st coord;
-  bool hidden;
+  coord_st  coord;
+  bool      hidden;
 } door_st;
 
 typedef struct room_t {
-  coord_st coord;
-  int x_len;
-  int y_len;
-  door_st doors[MAX_DOORS];
-  item_st items[MAX_ITEMS];
+  coord_st   coord;
+  int        x_len;
+  int        y_len;
+  door_st    doors[MAX_DOORS];
+  item_st    items[MAX_ITEMS];
 } room_st;
 
 typedef struct tunnel_st {
-  int len;
-  coord_st *coords;
+  int        len;
+  coord_st  *coords;
 } tunnel_st;
 
 
 typedef struct map_t {
-  coord_st stairs;
-  int num_rooms;
-  int num_tunnels;
-  room_st *rooms;
-  tunnel_st *tunnels;
+  coord_st    stairs;
+  int         num_rooms;
+  int         num_tunnels;
+  room_st    *rooms;
+  tunnel_st  *tunnels;
 } map_st;
 
 
@@ -155,7 +238,11 @@ typedef struct state_st {
   // rogue map position
   int x;
   int y;
+
+  // rogue's inventory
+  inv_slot_st inv[INVENTORY_MAX];
   
+  // map data
   map_st map;
 } state_st;
 
