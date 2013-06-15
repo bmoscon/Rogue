@@ -1,3 +1,8 @@
+rogue - 0.0.11 - June 15, 2013
+	* Add inventory array to game state
+	* define potion, scroll, and ring types
+	* draw inventory items on inventory screen
+
 rogue - 0.0.10 - June 10, 2013
 	* Fix some items (colors and characters)
 	* initial inventory window

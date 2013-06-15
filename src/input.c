@@ -170,12 +170,31 @@ static void upstairs_handler(state_st *state)
 
 static void inventory_handler(state_st *state)
 {
+  int i;
+  
   // clear previous entries on screen
   wmove(state->inventory, 1, 0);
   wclrtobot(state->inventory);
 
   // populate inventory screen.
-
+  // food is always first
+  wmove(state->inventory, 2, 0);
+  if (state->food) {
+    if (state->food == 1) {
+      waddstr(state->inventory, "Some food\n");
+    } else {
+      wprintw(state->inventory, "%d pieces of food\n", state->food); 
+    }
+  }
+  // everything else
+  for (i = 0; i < INVENTORY_MAX; ++i) {
+    if (state->inv[i].type == I_NONE) {
+      continue;
+    } else {
+      wprintw(state->inventory, "%s\n", state->inv[i].name);
+    }
+  }
+  
 
   // switch
   switch_win(state->inventory);
