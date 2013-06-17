@@ -48,7 +48,6 @@
 
 
 #include <stdlib.h>
-#include <time.h>
 
 #include "rogue.h"
 
@@ -71,13 +70,17 @@ void free_state(state_st *state)
     }
     free(state->map.tunnels);
   }
+
+  for (i = 0; i < NUM_SCROLLS; ++i) {
+    if (state->scroll_names[i]) {
+      free(state->scroll_names[i]);
+    }
+  }
 }
 
 
 void roll_rogue(state_st *state)
-{
-  srand(time(NULL));
-  
+{ 
   // strength should be between 9 and 12
   state->str_max = 9 + (rand() % 3);
   state->str = state->str_max;
@@ -94,4 +97,36 @@ void roll_rogue(state_st *state)
   state->gold = 0;
   state->level = 1;
   state->rank = 1;
+}
+
+
+static void random_syll(char *syll)
+{
+  static char con[] = "bcdfghjklmnpqrstvwxyz";
+  static char vow[] = "aeiou";
+
+  // -2 because of the implied \0 at end of each string
+  syll[0] = con[rand() % (sizeof(con) - 2)];
+  syll[1] = vow[rand() % (sizeof(vow) - 2)];
+  syll[2] = con[rand() % (sizeof(con) - 2)];
+  syll[3] = '\0';
+}
+
+void random_string(char *str, size_t len)
+{
+  uint32_t i = 0;
+  char syll[4];
+  
+  while (i < len) {
+    random_syll(syll);
+    // add random syllable to the name
+    i += snprintf(&str[i], len, "%s", syll);
+    
+    // see if we should add a space or not
+    if (!(rand() % 3)) {
+      i += snprintf(&str[i], len, "%s", " ");
+    }
+  }
+  
+  str[len] = '\0';
 }

@@ -73,6 +73,10 @@
 // inventory max
 #define INVENTORY_MAX 15
 
+// item name length
+#define ITEM_NAME_MAX 20
+
+
 
 typedef enum {
   I_NONE = 0,
@@ -103,11 +107,12 @@ typedef enum {
   LEVEL_UP,
   RESTORE_STRENGTH,
   THIRST_QUENCH,
-  NO_MAGIC
+  NO_MAGIC,
+  NUM_POTIONS
 } potion_type_e;
 
 typedef enum {
-  ADD_STRENGTH,
+  ADD_STRENGTH = 0,
   AGG_MONSTER,
   DEXTERITY,
   ADD_DAMAGE,
@@ -118,11 +123,12 @@ typedef enum {
   SLOW_DIGEST,
   STEALTH,
   SUSTAIN_STR,
-  ADORNMENT
+  ADORNMENT,
+  NUM_RINGS
 } ring_type_e;
 
 typedef enum {
-  AGG_MONSTERS,
+  AGG_MONSTERS = 0,
   CREATE_MONSTER,
   ENCHANT_ARMOR,
   ENCHANT_WEAPON,
@@ -135,11 +141,12 @@ typedef enum {
   SLEEP,
   TELEPORT,
   REMOVE_CURSE,
-  BLANK
+  BLANK,
+  NUM_SCROLLS
 } scroll_type_e;
 
 typedef enum {
-  REVEAL_MONSTER,
+  REVEAL_MONSTER = 0,
   FREEZE,
   LIFE_DRAIN,
   HASTE_MONSTER,
@@ -151,7 +158,8 @@ typedef enum {
   STRIKING,
   TELEPORT_AWAY,
   TELEPORT_TO,
-  NOTHING
+  NOTHING,
+  NUM_WANDS
 } wand_type_e;
 
 
@@ -163,7 +171,7 @@ typedef struct coord_st {
 
 typedef struct inv_slot_st {
   items_e   type;
-  char      name[20];
+  char      name[ITEM_NAME_MAX];
   union {
     potion_type_e  p_type;
     scroll_type_e  s_type;
@@ -241,6 +249,13 @@ typedef struct state_st {
 
   // rogue's inventory
   inv_slot_st inv[INVENTORY_MAX];
+
+  // lookup tables for item names
+  char *scroll_names[NUM_SCROLLS];
+  char *ring_names[NUM_RINGS];
+  char *potion_names[NUM_POTIONS];
+  char *wand_names[NUM_WANDS];
+
   
   // map data
   map_st map;
@@ -252,6 +267,8 @@ typedef struct state_st {
 void free_state(state_st *state);
 
 void roll_rogue(state_st *state);
+
+void random_string(char *str, size_t len);
 
 
 #endif

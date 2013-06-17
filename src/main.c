@@ -49,6 +49,7 @@
 
 #include <locale.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "rogue.h"
 #include "draw.h"
@@ -60,6 +61,8 @@
 
 static void game_init(state_st *state)
 {
+  int i;
+
   // set up windows
   state->game = init_gamew();
   state->help = init_helpw();
@@ -94,9 +97,14 @@ static void game_init(state_st *state)
   // allow us to catch the arrow keys
   keypad(state->game, TRUE);
 
+  // generate random names for items
+  for (i = 0; i < NUM_SCROLLS; ++i) {
+    state->scroll_names[i] = calloc(ITEM_NAME_MAX, sizeof(char));
+    random_string(state->scroll_names[i], ITEM_NAME_MAX-1);
+  }
+
   state->running = true;
   init_level(state);
-
 }
 
 static void draw(state_st *state)
@@ -138,6 +146,9 @@ int main()
   
   // set locale, otherwise we cant use unicode characters for the walls
   setlocale(LC_ALL, "");
+
+  // seed random #
+  srand(time(NULL));
 
   // set up game state
   game_init(&state);
