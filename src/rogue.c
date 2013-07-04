@@ -48,9 +48,24 @@
 
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "rogue.h"
 
+
+
+char *ring_types[] = {"topaz",
+                      "diamond",
+                      "agate",
+                      "onyx",
+                      "emerald",
+                      "ruby",
+                      "saphire",
+                      "turquoise",
+                      "opal",
+                      "jade",
+                      "saphire",
+                      "amethyst"};
 
 void free_state(state_st *state)
 {
@@ -71,11 +86,23 @@ void free_state(state_st *state)
     free(state->map.tunnels);
   }
 
+  // clean up scrolls names
   for (i = 0; i < NUM_SCROLLS; ++i) {
     if (state->scroll_names[i]) {
       free(state->scroll_names[i]);
     }
   }
+
+  // clean up ring names
+  for (i = 0; i < NUM_RINGS; ++i) {
+    if (state->ring_names[i]) {
+      free(state->ring_names[i]);
+    }
+  }
+
+  
+
+
 }
 
 
@@ -129,4 +156,36 @@ void random_string(char *str, size_t len)
   }
   
   str[len] = '\0';
+}
+
+// Fisher-Yates Algorithm
+static void random_shuffle(int *array, int upper)
+{
+  int i;
+  int j;
+  int t;
+  
+  for (i = upper - 1; i != 1; --i) {
+    j = rand() % i;
+    t = array[i];
+    array[i] = array[j];
+    array[j] = t;
+  }
+}
+
+void rings_init(state_st *state)
+{
+  int i;
+  int indices[NUM_RINGS];
+  
+  for (i = 0; i < NUM_RINGS; ++i) {
+    indices[i] = i;
+  }
+
+  random_shuffle(indices, NUM_RINGS);
+
+  for (i = 0; i < NUM_RINGS; ++i) {
+    state->ring_names[i] = strdup(ring_types[indices[i]]);
+  }
+  
 }
