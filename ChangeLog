@@ -1,4 +1,9 @@
-rogue - 0.0.13 - July 3rd, 2013
+rogue - 0.0.14 - July 17, 2013
+	* randomize wands and potions
+	* Inventory milestone now complete
+	* fixed bug that caused an early exit (left over debug code)
+
+rogue - 0.0.13 - July 3, 2013
 	* rings randomized
 
 rogue - 0.0.12 - June 17, 2013
