@@ -272,6 +272,9 @@ void random_string(char *str, size_t len);
 
 void rings_init(state_st *state);
 
+void potions_init(state_st *state);
+
+void wands_init(state_st *state);
 
 #endif
 

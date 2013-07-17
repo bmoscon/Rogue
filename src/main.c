@@ -103,14 +103,14 @@ static void game_init(state_st *state)
     random_string(state->scroll_names[i], ITEM_NAME_MAX-1);
   }
 
-
   // randomize ring types
   rings_init(state);
-  endwin();
-  for (i = 0; i < NUM_RINGS; ++i) {
-    printf("%s\n", state->ring_names[i]);
-  }
-  exit(0);
+
+  // randomize potion names
+  potions_init(state);
+
+  // randomize wand names
+  wands_init(state);
 
   state->running = true;
   init_level(state);

@@ -67,6 +67,36 @@ char *ring_types[] = {"topaz",
                       "saphire",
                       "amethyst"};
 
+char *potion_types[] = {"black",
+			"crimson",
+			"amber",
+			"aquamarine",
+			"cyan",
+			"magenta",
+			"green",
+			"gold",
+			"silver",
+			"tan",
+			"tangerine",
+			"clear",
+                        "white",
+                        "yellow"};
+
+char *wand_types[] = {"birch",
+		      "oak",
+		      "elm",
+		      "ash",
+		      "cherry",
+		      "willow",
+		      "hemlock",
+		      "maple",
+		      "cedar",
+		      "poplar",
+		      "teak",
+		      "walnut",
+		      "redwood"};
+
+
 void free_state(state_st *state)
 {
   int i;
@@ -99,10 +129,21 @@ void free_state(state_st *state)
       free(state->ring_names[i]);
     }
   }
-
   
+  // clean up potion names
+  for (i = 0; i < NUM_POTIONS; ++i) {
+    if (state->potion_names[i]) {
+      free(state->potion_names[i]);
+    }
+  }
 
-
+  // clean up wand names
+  for (i = 0; i < NUM_WANDS; ++i) {
+    if (state->wand_names[i]) {
+      free(state->wand_names[i]);
+    }
+  }
+  
 }
 
 
@@ -188,4 +229,40 @@ void rings_init(state_st *state)
     state->ring_names[i] = strdup(ring_types[indices[i]]);
   }
   
+}
+
+
+void potions_init(state_st *state)
+{
+  int i;
+  int indices[NUM_POTIONS];
+  
+  for (i = 0; i < NUM_POTIONS; ++i) {
+    indices[i] = i;
+  }
+
+  random_shuffle(indices, NUM_POTIONS);
+
+  for (i = 0; i < NUM_POTIONS; ++i) {
+    state->potion_names[i] = strdup(potion_types[indices[i]]);
+  }
+
+}
+
+
+void wands_init(state_st *state)
+{
+  int i;
+  int indices[NUM_WANDS];
+  
+  for (i = 0; i < NUM_WANDS; ++i) {
+    indices[i] = i;
+  }
+
+  random_shuffle(indices, NUM_WANDS);
+
+  for (i = 0; i < NUM_WANDS; ++i) {
+    state->wand_names[i] = strdup(wand_types[indices[i]]);
+  }
+
 }
