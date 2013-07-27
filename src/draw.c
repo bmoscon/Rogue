@@ -102,7 +102,7 @@ void draw_box(int startx, int starty, int rows, int cols, WINDOW* win)
   
   wmove(win, starty+rows-1, startx);  
   waddstr(win, BLCORNERU);
-  horiz_line(startx+1, starty+rows-1, rows-2, win);
+  horiz_line(startx+1, starty+rows-1, cols-2, win);
   waddstr(win, BRCORNERU);
 }
 
@@ -117,14 +117,12 @@ void draw_room(int startx, int starty, int rows, int cols, bool floor, WINDOW* w
   // first draw the box
   draw_box(startx, starty, rows, cols, win);
   
-  startx++;
-  starty++;
   if (floor) {
     color_floor();
     // now fill the background
-    for (i = starty; i < rows; ++i) {
-      wmove(win, i, startx);
-      for (j = startx; j < cols - 1; ++j) {
+    for (i = 1; i < rows - 1; ++i) {
+      for (j = 1; j < cols - 1; ++j) {
+	wmove(win, starty + i, startx + j);
 	waddstr(win, FLOORU);
       }
     }

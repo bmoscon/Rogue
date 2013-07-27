@@ -63,9 +63,9 @@ void init_level(state_st *state)
   state->map.rooms->coord.x = 0;
   state->map.rooms->coord.y = 1;
   state->map.rooms->x_len = 5;
-  state->map.rooms->y_len = 5;
+  state->map.rooms->y_len = 6;
   state->map.rooms->doors[0].coord.x = 2;
-  state->map.rooms->doors[0].coord.y = 5;
+  state->map.rooms->doors[0].coord.y = 6;
   state->map.rooms->doors[0].hidden = false;
   state->map.rooms->doors[1].coord.x = 4;
   state->map.rooms->doors[1].coord.y = 2;
@@ -77,16 +77,16 @@ void init_level(state_st *state)
   state->map.tunnels = malloc(sizeof(tunnel_st));
   state->map.tunnels->coords = malloc(sizeof(coord_st) * 5);
   state->map.tunnels->len = 5;
-  state->map.tunnels->coords[0].x = 5;
-  state->map.tunnels->coords[0].y = 2;
-  state->map.tunnels->coords[1].x = 6;
-  state->map.tunnels->coords[1].y = 2;
-  state->map.tunnels->coords[2].x = 7;
-  state->map.tunnels->coords[2].y = 2;
-  state->map.tunnels->coords[3].x = 8;
-  state->map.tunnels->coords[3].y = 2;
-  state->map.tunnels->coords[4].x = 9;
-  state->map.tunnels->coords[4].y = 2; 
+  state->map.tunnels->coords[0].x = 2;
+  state->map.tunnels->coords[0].y = 7;
+  state->map.tunnels->coords[1].x = 2;
+  state->map.tunnels->coords[1].y = 8;
+  state->map.tunnels->coords[2].x = 2;
+  state->map.tunnels->coords[2].y = 9;
+  state->map.tunnels->coords[3].x = 2;
+  state->map.tunnels->coords[3].y = 10;
+  state->map.tunnels->coords[4].x = 2;
+  state->map.tunnels->coords[4].y = 11; 
 
   state->map.rooms[0].items[0].coord.x = 3;
   state->map.rooms[0].items[0].coord.y = 3;
@@ -107,8 +107,8 @@ void draw_level(const state_st *state)
 
   for (i = 0; i < map->num_rooms; ++i) {
     // draw room
-    draw_room(map->rooms[i].coord.x, map->rooms[i].coord.y, map->rooms[i].x_len, 
-	      map->rooms[i].y_len, (i == r), win);
+    draw_room(map->rooms[i].coord.x, map->rooms[i].coord.y, map->rooms[i].y_len, 
+	      map->rooms[i].x_len, (i == r), win);
     
     // draw doors on room
     for (j = 0; map->rooms->doors[j].coord.x && map->rooms->doors[j].coord.y; ++j) {
