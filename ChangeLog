@@ -1,3 +1,7 @@
+rogue - 0.0.16 - July 28, 2013
+	* randomize room position
+	* add debug option to tool to save info to debug file
+	
 rogue - 0.0.15 - July 27, 2013
 	* bug fixes for drawing rooms
 	* tool for testing out room generation now in tools/
