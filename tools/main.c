@@ -51,6 +51,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ncursesw/curses.h>
+#include <string.h>
 
 #include "rooms.h"
 
@@ -185,8 +186,14 @@ int main(int argc, char *argv[])
   start_color();
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
+ 
+  int debug = 0;
+  if (argc == 2 && strcmp(argv[1], "--debug") == 0) {
+    debug = 1;
+  }
+ 
+  room_st *rooms = generate_rooms(debug);
   
-  room_st *rooms = generate_rooms(0);
   
 
    while (rooms) {

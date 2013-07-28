@@ -124,6 +124,10 @@ room_st* generate_rooms(int debug)
   
     startx = (WIDTH / 3) * (i % 3);
     starty = room_height_max * (i / 3);
+
+    // randomize x,y
+    startx += (rand() % (room_width_max - curr_room->w));
+    starty += (rand() % (room_height_max - curr_room->h));
     
     if (fp) {
       fprintf(fp, "room %d startx: %d\n", i, startx);
