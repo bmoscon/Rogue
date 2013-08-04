@@ -96,7 +96,7 @@ room_st* generate_rooms(int debug)
   // determine max room dimensions
   room_width_max = (WIDTH / 3);
   if (room_count == 3) {
-    room_height_max = 22;
+    room_height_max = HEIGHT;
   } else if (room_count <= 6) {
     room_height_max = 11;
   } else {

@@ -53,44 +53,110 @@
 #include "draw.h"
 #include "items.h"
 
+static void generate_rooms(state_st *state, int debug)
+{
+  int room_height_max;
+  int room_width_max;
+  int i;
+  
+  map_st *map = &(state->map);
+  room_st *curr_room;
+  FILE *fp = NULL;
+  
+  // randomly determine number of rooms
+  map->num_rooms = (rand() % (ROOMS_MAX - ROOMS_MIN)) + ROOMS_MIN;
+  map->rooms = (room_st *)malloc(sizeof(room_st) * map->num_rooms);
+  if (!map->rooms) {
+    endwin();
+    fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+    free_state(state); 
+    exit(EXIT_FAILURE);
+  }
+
+  if (debug == 1) {
+    fp = fopen("debug.txt", "w");
+  }
+
+  if (fp) {
+    fprintf(fp, "room count: %d\n", map->num_rooms);
+  }
+  
+  // determine max room dimensions
+  room_width_max = (MAP_COL / 3);
+  if (map->num_rooms == 3) {
+    room_height_max = MAP_ROW;
+  } else if (map->num_rooms <= 6) {
+    room_height_max = 11;
+  } else {
+    room_height_max = 7;
+  }
+
+ if (fp) {
+   fprintf(fp, "room_max_width: %d\n", room_width_max);
+   fprintf(fp, "room_max_height: %d\n", room_height_max);
+  }
+  
+  // randomly generate dimensions for each room
+  for (i = 0; i < map->num_rooms; ++i) {
+    int startx;
+    int starty;
+    curr_room = &(map->rooms[i]);
+    
+    curr_room->y_len = (rand() % (room_height_max - ROOM_DIM_MIN)) + ROOM_DIM_MIN;
+    curr_room->x_len = (rand() % (room_width_max - ROOM_DIM_MIN)) + ROOM_DIM_MIN;
+    
+    if (fp) {
+      fprintf(fp, "room %d height: %d\n", i, curr_room->y_len);
+      fprintf(fp, "room %d width: %d\n", i, curr_room->x_len);
+    }
+    
+    startx = (MAP_COL / 3) * (i % 3);
+    starty = room_height_max * (i / 3);
+
+    // randomize x,y
+    startx += (rand() % (room_width_max - curr_room->x_len));
+    // +1 because we use the top row of the screen for text messages
+    starty += (rand() % (room_height_max - curr_room->y_len)) + 1;
+    
+    if (fp) {
+      fprintf(fp, "room %d startx: %d\n", i, startx);
+      fprintf(fp, "room %d starty: %d\n", i, starty);
+    }
+    
+    curr_room->coord.x = startx;
+    curr_room->coord.y = starty;
+  }
+}
+
+static void randomize_tunnels(state_st *state)
+{
+
+}
+
+
+static void randomize_positions(state_st *state)
+{
+  map_st *m = &(state->map);
+  // pick random room
+  int r = (rand() % state->map.num_rooms);
+  int s = (rand() % state->map.num_rooms);
+  
+  // pick random coords in rooms
+  state->x = (rand() % (m->rooms[r].x_len - 3)) + m->rooms[r].coord.x + 1;
+  state->y = (rand() % (m->rooms[r].y_len - 3)) + m->rooms[r].coord.y + 1;
+
+  m->stairs.x = (rand() % (m->rooms[s].x_len - 3)) + m->rooms[r].coord.x + 1;
+  m->stairs.y = (rand() % (m->rooms[s].y_len - 3)) + m->rooms[r].coord.y + 1;
+  
+}
+
 
 void init_level(state_st *state)
 {
-  state->map.stairs.x = 1;
-  state->map.stairs.y = 2;
-  state->map.num_rooms = 1;
-  state->map.rooms = malloc(sizeof(room_st));
-  state->map.rooms->coord.x = 0;
-  state->map.rooms->coord.y = 1;
-  state->map.rooms->x_len = 5;
-  state->map.rooms->y_len = 6;
-  state->map.rooms->doors[0].coord.x = 2;
-  state->map.rooms->doors[0].coord.y = 6;
-  state->map.rooms->doors[0].hidden = false;
-  state->map.rooms->doors[1].coord.x = 4;
-  state->map.rooms->doors[1].coord.y = 2;
-  state->map.rooms->doors[1].hidden = false;
-  state->x = 1;
-  state->y = 3;
-
-  state->map.num_tunnels = 1;
-  state->map.tunnels = malloc(sizeof(tunnel_st));
-  state->map.tunnels->coords = malloc(sizeof(coord_st) * 5);
-  state->map.tunnels->len = 5;
-  state->map.tunnels->coords[0].x = 2;
-  state->map.tunnels->coords[0].y = 7;
-  state->map.tunnels->coords[1].x = 2;
-  state->map.tunnels->coords[1].y = 8;
-  state->map.tunnels->coords[2].x = 2;
-  state->map.tunnels->coords[2].y = 9;
-  state->map.tunnels->coords[3].x = 2;
-  state->map.tunnels->coords[3].y = 10;
-  state->map.tunnels->coords[4].x = 2;
-  state->map.tunnels->coords[4].y = 11; 
-
-  state->map.rooms[0].items[0].coord.x = 3;
-  state->map.rooms[0].items[0].coord.y = 3;
-  state->map.rooms[0].items[0].type = I_FOOD;
+  generate_rooms(state, 0);
+  randomize_tunnels(state);
+  randomize_positions(state);
+  
 }
 
 void draw_level(const state_st *state)
