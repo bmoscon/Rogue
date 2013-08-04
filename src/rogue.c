@@ -227,6 +227,12 @@ void rings_init(state_st *state)
 
   for (i = 0; i < NUM_RINGS; ++i) {
     state->ring_names[i] = strdup(ring_types[indices[i]]);
+    if (!state->ring_names[i]) {
+      endwin();
+      fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+      free_state(state); 
+      exit(EXIT_FAILURE);
+    }
   }
   
 }
@@ -245,6 +251,12 @@ void potions_init(state_st *state)
 
   for (i = 0; i < NUM_POTIONS; ++i) {
     state->potion_names[i] = strdup(potion_types[indices[i]]);
+    if (!state->potion_names[i]) {
+      endwin();
+      fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+      free_state(state); 
+      exit(EXIT_FAILURE);
+    }
   }
 
 }
@@ -263,6 +275,12 @@ void wands_init(state_st *state)
 
   for (i = 0; i < NUM_WANDS; ++i) {
     state->wand_names[i] = strdup(wand_types[indices[i]]);
+    if (!state->wand_names[i]) {
+      endwin();
+      fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+      free_state(state); 
+      exit(EXIT_FAILURE);
+    }
   }
 
 }

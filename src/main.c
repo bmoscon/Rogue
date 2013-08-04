@@ -100,6 +100,13 @@ static void game_init(state_st *state)
   // generate random names for items
   for (i = 0; i < NUM_SCROLLS; ++i) {
     state->scroll_names[i] = calloc(ITEM_NAME_MAX, sizeof(char));
+    if (!state->scroll_names[i]) {
+      endwin();
+      fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+      free_state(state); 
+      exit(EXIT_FAILURE);
+    }
+    
     random_string(state->scroll_names[i], ITEM_NAME_MAX-1);
   }
 

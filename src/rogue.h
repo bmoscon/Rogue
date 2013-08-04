@@ -64,6 +64,11 @@
 // and bottom row for stats
 #define MAP_ROW MIN_ROW - 2
 
+// min/max # of rooms, and minimum room dimensions
+#define ROOMS_MAX 9
+#define ROOMS_MIN 3
+#define ROOM_DIM_MIN 4
+
 // max number of doors per room
 #define MAX_DOORS 4
 
