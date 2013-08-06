@@ -1,3 +1,6 @@
+rogue - 0.0.18 - August 5, 2013
+	* initial logger support
+
 rogue - 0.0.17 - August 3, 2013
 	* random rooms now in game
 	* randomize rogue position and stairs location
