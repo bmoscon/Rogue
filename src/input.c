@@ -56,6 +56,8 @@
 #include "items.h"
 #include "level.h"
 
+// strdup is not in c99 standard, so simply including <string.h> will not suffice
+extern char *strdup(const char *s);
 
 static void quit_handler(state_st *state)
 {

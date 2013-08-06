@@ -175,7 +175,7 @@ static void welcome(state_st *state)
 
 int main()
 {
-  state_st state = {};
+  state_st state = {0};
   
   // set locale, otherwise we cant use unicode characters for the walls
   setlocale(LC_ALL, "");

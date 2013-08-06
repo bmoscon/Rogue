@@ -46,9 +46,14 @@
  */
 #define _XOPEN_SOURCE_EXTENDED
 
-
+#ifdef __APPLE__
+#include <ncurses.h>
+#elif __linux__
 #include <ncursesw/curses.h> 
+#endif
 
+
+#include "colors.h"
 
 void init_colors()
 {

@@ -4,36 +4,27 @@
 #
 
 
+UNAME := $(shell uname -s)
+CC = gcc
+CCFLAGS = -Wall -Werror -pedantic -ggdb3 --std=c99
+LINUX_LIBS = -lncursesw
+OSX_LIBS = -lncurses
 
-rogue: main.o draw.o colors.o windows.o input.o rogue.o level.o items.o logger.o
-	gcc -ggdb3 -Wall -o rogue logger.o items.o level.o input.o windows.o draw.o colors.o rogue.o main.o -lncursesw
+HEADERS = chars.h colors.h draw.h input.h items.h level.h logger.h rogue.h windows.h
+OBJECTS = colors.o draw.o input.o items.o level.o logger.o main.o rogue.o windows.o
 
-logger.o: logger.c logger.h
-	gcc -ggdb3 -Wall -c -o logger.o logger.c
+all: rogue
 
-items.o: items.c items.h
-	gcc -ggdb3 -Wall -c -o items.o items.c
+clean: 
+	rm -f $(OBJECTS) rogue
 
-level.o: level.c level.h
-	gcc -ggdb3 -Wall -c -o level.o level.c
+rogue: $(OBJECTS)
+ifeq ($(UNAME),Darwin)
+	$(CC) -o rogue $(OBJECTS) $(OSX_LIBS)
+else ifeq ($(UNAME),Linux)
+	$(CC) -o rogue $(OBJECTS) $(LINUX_LIBS)
+endif    
 
-rogue.o : rogue.c rogue.h
-	gcc -ggdb3 -Wall -c -o rogue.o rogue.c
 
-input.o: input.c input.h
-	gcc -ggdb3 -Wall -c -o input.o input.c
-
-windows.o: windows.c windows.h
-	gcc -ggdb3 -Wall -c -o windows.o windows.c
-
-draw.o: draw.c draw.h
-	gcc -ggdb3 -Wall -std=c99 -c -o draw.o draw.c
-
-colors.o: colors.c colors.h
-	gcc -ggdb3 -Wall -c -o colors.o colors.c
-
-main.o: main.c
-	gcc -ggdb3 -Wall -c -o main.o main.c
-
-clean:
-	rm rogue *.o
+%.o: %.c $(HEADERS) Makefile
+	$(CC) $(CCFLAGS) -c $< -o $@

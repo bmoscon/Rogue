@@ -48,8 +48,6 @@
 #define __ROGUE_DRAW__
 
 
-#include <ncursesw/curses.h>
-
 #include "rogue.h"
 
 

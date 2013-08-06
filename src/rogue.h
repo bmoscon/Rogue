@@ -48,7 +48,12 @@
 #define __ROGUE__
 
 
-#include <ncursesw/curses.h>
+#ifdef __APPLE__
+#include <ncurses.h>
+#elif __linux__
+#include <ncursesw/curses.h> 
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
 

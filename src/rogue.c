@@ -53,7 +53,8 @@
 #include "rogue.h"
 #include "logger.h"
 
-
+// strdup is not in c99 standard, so simply including <string.h> will not suffice
+extern char *strdup(const char *s);
 
 char *ring_types[] = {"topaz",
                       "diamond",
