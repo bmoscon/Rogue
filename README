@@ -6,5 +6,6 @@ terminal, and rxvt-unicode. Other terminals may or may not work.
 
 Note: unicode support requires NCursesw!
 
-Linux and OSX are supported, provided the correct libraries are installed. On OSX, the macports 
-ncurses library incldues both ncurses and ncursesw, so please use that.
+Linux and OSX are supported, provided the correct libraries are installed. 
+On OSX, the macports ncurses library incldues both ncurses and ncursesw, 
+so please use that.
