@@ -281,5 +281,7 @@ void potions_init(state_st *state);
 
 void wands_init(state_st *state);
 
+void state_log(const state_st *state);
+
 #endif
 

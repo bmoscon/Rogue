@@ -57,10 +57,15 @@
 #include "input.h"
 #include "colors.h"
 #include "level.h"
+#include "logger.h"
+
+#define LOG_LEVEL LOGGER_LEVEL_DEBUG
 
 
 static void game_init(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   int i;
 
   // set up windows
@@ -71,6 +76,8 @@ static void game_init(state_st *state)
   if (!state->game || !state->help || !state->inventory) {
     endwin();
     fprintf(stderr, "%s:%d - %s() - Failed to create window!\n", __FILE__, __LINE__, __FUNCTION__);
+    log_error("Window creation failed, aborting");
+    logger_stop();
     free_state(state); 
     exit(EXIT_FAILURE);
   }
@@ -79,6 +86,8 @@ static void game_init(state_st *state)
     endwin();
     fprintf(stderr, "Your terminal is too small. Minimum supported dimensions are %dx%d\n", 
 	    MIN_COL, MIN_ROW);
+    log_error("Terminal size too small, aborting");
+    logger_stop();
     free_state(state); 
     exit(EXIT_FAILURE);
   }
@@ -88,6 +97,8 @@ static void game_init(state_st *state)
   if(has_colors() == false) {
     endwin();
     fprintf(stderr, "Your terminal does not support color\n");
+    log_error("Terminal colors not supported, aborting");
+    logger_stop();
     free_state(state); 
     exit(EXIT_FAILURE);
   }
@@ -103,6 +114,8 @@ static void game_init(state_st *state)
     if (!state->scroll_names[i]) {
       endwin();
       fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+      log_error("malloc failed");
+      logger_stop();
       free_state(state); 
       exit(EXIT_FAILURE);
     }
@@ -121,24 +134,26 @@ static void game_init(state_st *state)
 
   state->running = true;
   init_level(state);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void draw(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   draw_stats(state);
   draw_message(state);
   draw_level(state);
-}
 
-static bool running(const state_st *state)
-{
-  return (state->running);
+  log_verbose("Leaving %s", __FUNCTION__);
 }
-
 
 
 static void welcome(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   draw_welcome_box(state->game);
   refresh();
   name_handler(state);
@@ -154,6 +169,8 @@ static void welcome(state_st *state)
   // add welcome message to first level screen
   snprintf(state->message, sizeof(state->message), "Hello %s. Welcome to the Dungeons of Doom!", 
 	   state->name);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 int main()
@@ -166,6 +183,10 @@ int main()
   // seed random #
   srand(time(NULL));
 
+  // logging init
+  logger_init();
+  logger_set_level(LOG_LEVEL);
+
   // set up game state
   game_init(&state);
 
@@ -174,6 +195,10 @@ int main()
 
   // game loop
   do {
+    // log state info
+    state_log(&state);
+
+    // clear game window
     wclear(state.game);
     // draw
     draw(&state);
@@ -181,7 +206,7 @@ int main()
     // input
     input_handler(&state);
     
-  } while(running(&state));
+  } while(state.running);
   
   
   
@@ -190,6 +215,7 @@ int main()
  
   endwin();
   
-  free_state(&state); 
+  free_state(&state);
+  logger_stop();
   return (EXIT_SUCCESS);
 }

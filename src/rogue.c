@@ -51,6 +51,7 @@
 #include <string.h>
 
 #include "rogue.h"
+#include "logger.h"
 
 
 
@@ -283,4 +284,31 @@ void wands_init(state_st *state)
     }
   }
 
+}
+
+
+void state_log(const state_st *state)
+{
+  log_verbose("Entering %s", __FUNCTION__);
+
+  log_debug("Current game state:\n"
+            "\trunning: %s\n"
+	    "\tmessage: %s\n"
+	    "\tname: %s\n"
+	    "\thp: %d\n"
+	    "\thp_max: %d\n"
+	    "\tstr: %d\n"
+	    "\tstr_max: %d\n"
+	    "\tarmor: %d\n"
+	    "\tgold: %d\n"
+	    "\tlevel: %d\n"
+	    "\trank: %d\n"
+	    "\tfood: %d\n"
+	    "\tx: %d\n"
+	    "\ty: %d",
+	    (state->running) ? "yes" : "no", state->message, state->name, state->hp, 
+	    state->hp_max, state->str, state->str_max, state->armor, state->gold, state->level,
+	    state->rank, state->food, state->x, state->y);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }

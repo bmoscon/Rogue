@@ -5,8 +5,11 @@
 
 
 
-rogue: main.o draw.o colors.o windows.o input.o rogue.o level.o items.o
-	gcc -ggdb3 -Wall -o rogue items.o level.o input.o windows.o draw.o colors.o rogue.o main.o -lncursesw
+rogue: main.o draw.o colors.o windows.o input.o rogue.o level.o items.o logger.o
+	gcc -ggdb3 -Wall -o rogue logger.o items.o level.o input.o windows.o draw.o colors.o rogue.o main.o -lncursesw
+
+logger.o: logger.c logger.h
+	gcc -ggdb3 -Wall -c -o logger.o logger.c
 
 items.o: items.c items.h
 	gcc -ggdb3 -Wall -c -o items.o items.c
