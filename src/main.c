@@ -50,6 +50,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #include "rogue.h"
 #include "draw.h"
@@ -59,7 +60,6 @@
 #include "level.h"
 #include "logger.h"
 
-#define LOG_LEVEL LOGGER_LEVEL_DEBUG
 
 
 static void game_init(state_st *state)
@@ -173,7 +173,7 @@ static void welcome(state_st *state)
   log_verbose("Leaving %s", __FUNCTION__);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
   state_st state = {0};
   
@@ -183,10 +183,23 @@ int main()
   // seed random #
   srand(time(NULL));
 
-  // logging init
-  logger_init();
-  logger_set_level(LOG_LEVEL);
-
+  // check for logging
+  if (argc > 1) {
+    if (!strcmp(argv[1], "--debug")) {
+      logger_init();
+      logger_set_level(LOGGER_LEVEL_DEBUG);
+    } else if (!strcmp(argv[1], "--verbose")) {
+      logger_init();
+      logger_set_level(LOGGER_LEVEL_VERBOSE);
+    } else if (!strcmp(argv[1], "--warn")) {
+      logger_init();
+      logger_set_level(LOGGER_LEVEL_WARN);
+    } else if (!strcmp(argv[1], "--error")) {
+      logger_init();
+      logger_set_level(LOGGER_LEVEL_ERROR);
+    }
+  }
+    
   // set up game state
   game_init(&state);
 

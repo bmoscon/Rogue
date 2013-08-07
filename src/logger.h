@@ -50,11 +50,11 @@
 #include <stdarg.h>
 
 typedef enum logger_level {
-  LOGGER_LEVEL_OFF = -1,
   LOGGER_LEVEL_VERBOSE = 0,
   LOGGER_LEVEL_DEBUG,
   LOGGER_LEVEL_WARN,
-  LOGGER_LEVEL_ERROR
+  LOGGER_LEVEL_ERROR,
+  LOGGER_LEVEL_OFF
 } logger_level;
 
 

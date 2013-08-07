@@ -101,6 +101,10 @@ void logger_log(logger_level l, char *loc, char *format, ...)
     return;
   }
 
+  if (!fp) {
+    return;
+  }
+
   va_list args;
   va_start(args, format);
 
