@@ -10,8 +10,9 @@ CCFLAGS = -Wall -Werror -pedantic -ggdb3 --std=c99
 LINUX_LIBS = -lncursesw
 OSX_LIBS = -lncurses
 
-HEADERS = chars.h colors.h draw.h input.h items.h level.h logger.h rogue.h windows.h
-OBJECTS = colors.o draw.o input.o items.o level.o logger.o main.o rogue.o windows.o
+HEADERS = $(wildcard *.h)
+SRC_FILES = $(wildcard *.c)
+OBJECTS = $(subst .c,.o,$(SRC_FILES))
 
 all: rogue
 
