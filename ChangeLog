@@ -1,6 +1,7 @@
 rogue - 0.0.19 - August 6, 2013
 	* Cleanup makefile
 	* OSX Support
+	* Enable logger and log level via command line
 
 rogue - 0.0.18 - August 5, 2013
 	* initial logger support
