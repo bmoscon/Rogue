@@ -56,12 +56,12 @@ void remove_item(state_st *state, int room, items_e item)
   int i;
   
   for (i = 0; i < MAX_ITEMS; ++i) {
-    if (state->map.rooms[room].items[i].coord.x == state->x && 
-	state->map.rooms[room].items[i].coord.y == state->y) {
+    if (state->map.rooms[room].items[i].pos.x == state->x && 
+	state->map.rooms[room].items[i].pos.y == state->y) {
       if (item == state->map.rooms[room].items[i].type) {
 	state->map.rooms[room].items[i].type = I_NONE;
-	state->map.rooms[room].items[i].coord.x = 0;
-	state->map.rooms[room].items[i].coord.y = 0;
+	state->map.rooms[room].items[i].pos.x = 0;
+	state->map.rooms[room].items[i].pos.y = 0;
 	break;
       }
     }

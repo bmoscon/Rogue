@@ -1,8 +1,8 @@
 /*
- * level.h
+ * tools.h
  *
  *
- * Level functions
+ * utilities
  *
  *
  * Copyright (C) 2013  Bryant Moscon - bmoscon@gmail.com
@@ -44,22 +44,14 @@
  * THE SOFTWARE.
  *
  */
-#ifndef __ROGUE_LEVEL__
-#define __ROGUE_LEVEL__
+#ifndef __TOOLS__
+#define __TOOLS__
 
+int random(int min, int max);
 
-#include "rogue.h"
+void random_shuffle(int *array, int upper);
 
-
-void init_level(state_st *state);
-
-void draw_level(const state_st *state);
-
-bool in_room_corners(int x, int y, int room, const state_st *state);
-
-bool in_room(int x, int y, int room, const state_st *state);
-
-int get_room(int x, int y, const state_st *state);
+void random_string(char *str, size_t len);
 
 
 #endif

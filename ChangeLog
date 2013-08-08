@@ -1,3 +1,10 @@
+rogue - 0.1.0 - August 8, 2013
+	* OSX support for tools/
+	* Move utils to tools.h/.c
+	* Small code cleanup
+	* Most rudimentary room/tunnel support complete!
+	* In honor of this basic playability milestone, minor version changed to 0.1 from 0.0
+
 rogue - 0.0.19 - August 6, 2013
 	* Cleanup makefile
 	* OSX Support

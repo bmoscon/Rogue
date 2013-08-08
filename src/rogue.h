@@ -194,36 +194,37 @@ typedef struct inv_slot_st {
 
 
 typedef struct item_st {
-  coord_st  coord;
+  coord_st  pos;
   items_e   type;
 } item_st;
 
 
 typedef struct door_t {
-  coord_st  coord;
+  coord_st  pos;
   bool      hidden;
 } door_st;
 
+
+typedef struct tunnel_st {
+  int       len;
+  coord_st  *pos;
+} tunnel_st;
+
+
 typedef struct room_t {
-  coord_st   coord;
+  coord_st   pos;
   int        x_len;
   int        y_len;
+  tunnel_st  tunnels[MAX_DOORS];
   door_st    doors[MAX_DOORS];
   item_st    items[MAX_ITEMS];
 } room_st;
-
-typedef struct tunnel_st {
-  int        len;
-  coord_st  *coords;
-} tunnel_st;
 
 
 typedef struct map_t {
   coord_st    stairs;
   int         num_rooms;
-  int         num_tunnels;
   room_st    *rooms;
-  tunnel_st  *tunnels;
 } map_st;
 
 

@@ -52,6 +52,7 @@
 
 #include "rogue.h"
 #include "logger.h"
+#include "tools.h"
 
 // strdup is not in c99 standard, so simply including <string.h> will not suffice
 extern char *strdup(const char *s);
@@ -107,16 +108,18 @@ void free_state(state_st *state)
     free(state->name);
   }
 
+  for (i = 0; i < state->map.num_rooms; ++i) {
+    for (int j = 0; j < MAX_DOORS; ++j) {
+      if (state->map.rooms[i].tunnels[j].pos) {
+	free(state->map.rooms[i].tunnels[j].pos);
+      }
+    }				      
+  }
+
   if (state->map.rooms) {
     free(state->map.rooms);
   }
 
-  if (state->map.tunnels) {
-    for (i = 0; i < state->map.num_tunnels; ++i) {
-      free(state->map.tunnels[i].coords);
-    }
-    free(state->map.tunnels);
-  }
 
   // clean up scrolls names
   for (i = 0; i < NUM_SCROLLS; ++i) {
@@ -167,53 +170,6 @@ void roll_rogue(state_st *state)
   state->gold = 0;
   state->level = 1;
   state->rank = 1;
-}
-
-
-static void random_syll(char *syll)
-{
-  static char con[] = "bcdfghjklmnpqrstvwxyz";
-  static char vow[] = "aeiou";
-
-  // -2 because of the implied \0 at end of each string
-  syll[0] = con[rand() % (sizeof(con) - 2)];
-  syll[1] = vow[rand() % (sizeof(vow) - 2)];
-  syll[2] = con[rand() % (sizeof(con) - 2)];
-  syll[3] = '\0';
-}
-
-void random_string(char *str, size_t len)
-{
-  uint32_t i = 0;
-  char syll[4];
-  
-  while (i < len) {
-    random_syll(syll);
-    // add random syllable to the name
-    i += snprintf(&str[i], len, "%s", syll);
-    
-    // see if we should add a space or not
-    if (!(rand() % 3)) {
-      i += snprintf(&str[i], len, "%s", " ");
-    }
-  }
-  
-  str[len] = '\0';
-}
-
-// Fisher-Yates Algorithm
-static void random_shuffle(int *array, int upper)
-{
-  int i;
-  int j;
-  int t;
-  
-  for (i = upper - 1; i != 1; --i) {
-    j = rand() % i;
-    t = array[i];
-    array[i] = array[j];
-    array[j] = t;
-  }
 }
 
 void rings_init(state_st *state)
