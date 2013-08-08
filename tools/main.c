@@ -50,8 +50,13 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
-#include <ncursesw/curses.h>
 #include <string.h>
+
+#ifdef __APPLE__
+#include <ncurses.h>
+#elif __linux__
+#include <ncursesw/curses.h>
+#endif
 
 #include "rooms.h"
 
@@ -187,22 +192,17 @@ int main(int argc, char *argv[])
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
  
-  int debug = 0;
-  if (argc == 2 && strcmp(argv[1], "--debug") == 0) {
-    debug = 1;
-  }
- 
-  room_st *rooms = generate_rooms(debug);
-  
-  
+  map_st *m = generate_rooms();  
 
-   while (rooms) {
-     draw_room(rooms->x, rooms->y, rooms->h, rooms->w);
-     rooms = rooms->next;
+  for (int i = 0; i < m->num_rooms; ++i) {
+     draw_room(m->rooms[i].pos.x, m->rooms[i].pos.y, m->rooms[i].y_len, m->rooms[i].x_len);
    }
 
    getch();
    endwin();
+
+   free(m->rooms);
+   free(m);
   
   return (0);
 }

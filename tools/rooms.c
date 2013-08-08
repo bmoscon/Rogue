@@ -51,94 +51,54 @@
 #include <math.h>
 #include "rooms.h"
 
-#define WIDTH 80
-#define HEIGHT 22
-#define ROOMS_MAX 9
-#define ROOMS_MIN 3
-#define ROOM_DIM_MIN 4
 
 
-room_st* generate_rooms(int debug)
+map_st* generate_rooms()
 {
-  int room_count;
   int room_height_max;
   int room_width_max;
   int i;
   
-  room_st *rooms;
-  room_st *curr_room;
-  FILE *fp = NULL;
+  map_st *m = malloc(sizeof(map_st));
+  if (!m) {
+    return (NULL);
+  }
   
   // randomly determine number of rooms
-  room_count = (rand() % (ROOMS_MAX - ROOMS_MIN)) + ROOMS_MIN;
-  rooms = (room_st *)malloc(sizeof(room_st));
-  // check for bad malloc
-
-
-  if (debug == 1) {
-    fp = fopen("debug.txt", "w");
+  m->num_rooms = (rand() % (ROOMS_MAX - ROOMS_MIN)) + ROOMS_MIN;
+  m->rooms = (room_st *)malloc(sizeof(room_st) * m->num_rooms);
+  if (!m->rooms) {
+    return (NULL);
   }
-
-  if (fp) {
-    fprintf(fp, "room count: %d\n", room_count);
-  }
-  
-
-  curr_room = rooms;
-  for (i = 1; i < room_count; ++i) {
-    rooms->next = malloc(sizeof(room_st));
-    rooms = rooms->next;
-    rooms->next = NULL;
-  }
-  
-  rooms = curr_room;
   
   // determine max room dimensions
-  room_width_max = (WIDTH / 3);
-  if (room_count == 3) {
-    room_height_max = HEIGHT;
-  } else if (room_count <= 6) {
+  room_width_max = (MAP_COL / 3);
+  if (m->num_rooms == 3) {
+    room_height_max = MAP_ROW;
+  } else if (m->num_rooms <= 6) {
     room_height_max = 11;
   } else {
     room_height_max = 7;
   }
-
- if (fp) {
-   fprintf(fp, "room_max_width: %d\n", room_width_max);
-   fprintf(fp, "room_max_height: %d\n", room_height_max);
-  }
   
   // randomly generate dimensions for each room
-  for (i = 0; i < room_count; ++i) {
+  for (i = 0; i < m->num_rooms; ++i) {
     int startx;
     int starty;
     
-    
-    curr_room->h = (rand() % (room_height_max - ROOM_DIM_MIN)) + ROOM_DIM_MIN;
-    curr_room->w = (rand() % (room_width_max - ROOM_DIM_MIN)) + ROOM_DIM_MIN;
-      
-    if (fp) {
-      fprintf(fp, "room %d height: %d\n", i, curr_room->h);
-      fprintf(fp, "room %d width: %d\n", i, curr_room->w);
-    }
+    m->rooms[i].y_len = (rand() % (room_height_max - ROOM_DIM_MIN)) + ROOM_DIM_MIN;
+    m->rooms[i].x_len = (rand() % (room_width_max - ROOM_DIM_MIN)) + ROOM_DIM_MIN;
   
-    startx = (WIDTH / 3) * (i % 3);
+    startx = (MAP_COL / 3) * (i % 3);
     starty = room_height_max * (i / 3);
 
     // randomize x,y
-    startx += (rand() % (room_width_max - curr_room->w));
-    starty += (rand() % (room_height_max - curr_room->h));
+    startx += (rand() % (room_width_max - m->rooms[i].x_len));
+    starty += (rand() % (room_height_max - m->rooms[i].y_len));
     
-    if (fp) {
-      fprintf(fp, "room %d startx: %d\n", i, startx);
-      fprintf(fp, "room %d starty: %d\n", i, starty);
-    }
-    
-    curr_room->x = startx;
-    curr_room->y = starty;
-
-    curr_room = curr_room->next;
+    m->rooms[i].pos.x = startx;
+    m->rooms[i].pos.y = starty;
   }
-  
-  return (rooms);
+    
+  return (m);
 }
