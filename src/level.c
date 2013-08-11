@@ -178,7 +178,7 @@ static void generate_rooms(state_st *state)
   room_st *curr_room;
   
   // randomly determine number of rooms
-  map->num_rooms = random(ROOMS_MIN, ROOMS_MAX);
+  map->num_rooms = random_int(ROOMS_MIN, ROOMS_MAX);
   map->rooms = (room_st *)calloc(map->num_rooms, sizeof(room_st));
   if (!map->rooms) {
     endwin();
@@ -204,16 +204,16 @@ static void generate_rooms(state_st *state)
     int starty;
     curr_room = &(map->rooms[i]);
     
-    curr_room->y_len = random(ROOM_DIM_MIN, room_height_max);
-    curr_room->x_len = random(ROOM_DIM_MIN, room_width_max);
+    curr_room->y_len = random_int(ROOM_DIM_MIN, room_height_max);
+    curr_room->x_len = random_int(ROOM_DIM_MIN, room_width_max);
     
     startx = (MAP_COL / 3) * (i % 3);
     starty = room_height_max * (i / 3);
 
     // randomize x,y
-    startx += random(0, room_width_max - curr_room->x_len);
+    startx += random_int(0, room_width_max - curr_room->x_len);
     // min is 1 because we use the top row of the screen for text messages
-    starty += random(1, room_height_max - curr_room->y_len);
+    starty += random_int(1, room_height_max - curr_room->y_len);
     
     curr_room->pos.x = startx;
     curr_room->pos.y = starty;
@@ -235,15 +235,15 @@ static void randomize_positions(state_st *state)
 {
   map_st *m = &(state->map);
   // pick random room
-  int r = random(0, state->map.num_rooms);
-  int s = random(0, state->map.num_rooms);
+  int r = random_int(0, state->map.num_rooms);
+  int s = random_int(0, state->map.num_rooms);
   
   // pick random coords in rooms
-  state->x = random(m->rooms[r].pos.x + 1, m->rooms[r].pos.x + m->rooms[r].x_len - 2);
-  state->y = random(m->rooms[r].pos.y + 1, m->rooms[r].pos.y + m->rooms[r].y_len - 2);
+  state->x = random_int(m->rooms[r].pos.x + 1, m->rooms[r].pos.x + m->rooms[r].x_len - 2);
+  state->y = random_int(m->rooms[r].pos.y + 1, m->rooms[r].pos.y + m->rooms[r].y_len - 2);
 
-  m->stairs.x = random(m->rooms[s].pos.x + 1, m->rooms[s].pos.x + m->rooms[s].x_len - 2);
-  m->stairs.y = random(m->rooms[s].pos.y + 1, m->rooms[s].pos.y + m->rooms[s].y_len - 2);
+  m->stairs.x = random_int(m->rooms[s].pos.x + 1, m->rooms[s].pos.x + m->rooms[s].x_len - 2);
+  m->stairs.y = random_int(m->rooms[s].pos.y + 1, m->rooms[s].pos.y + m->rooms[s].y_len - 2);
   
 }
 

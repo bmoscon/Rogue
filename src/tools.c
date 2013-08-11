@@ -63,7 +63,7 @@ static void random_syll(char *syll)
 }
 
 
-int random(int min, int max)
+int random_int(int min, int max)
 {
   if (min == max) {
     return (min);

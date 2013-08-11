@@ -1,3 +1,6 @@
+rogue - 0.1.1 - August 11, 2013
+	* Fix OSX compilation issue
+
 rogue - 0.1.0 - August 8, 2013
 	* OSX support for tools/
 	* Move utils to tools.h/.c

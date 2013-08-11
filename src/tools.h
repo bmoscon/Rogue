@@ -47,7 +47,7 @@
 #ifndef __TOOLS__
 #define __TOOLS__
 
-int random(int min, int max);
+int random_int(int min, int max);
 
 void random_shuffle(int *array, int upper);
 
