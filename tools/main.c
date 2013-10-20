@@ -172,7 +172,6 @@ static void draw_room(int startx, int starty, int rows, int cols)
   attrset(COLOR_PAIR(2));
   // now fill the background
   for (i = 1; i < rows - 1; ++i) {
-    move(starty + i, startx + j);
     for (j = 1; j < cols - 1; ++j) {
       move(starty + i, startx + j);
       addstr(FLOORU);

@@ -68,6 +68,7 @@ map_st* generate_rooms()
   m->num_rooms = (rand() % (ROOMS_MAX - ROOMS_MIN)) + ROOMS_MIN;
   m->rooms = (room_st *)malloc(sizeof(room_st) * m->num_rooms);
   if (!m->rooms) {
+    free(m);
     return (NULL);
   }
   
