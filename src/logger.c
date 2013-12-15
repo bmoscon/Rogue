@@ -64,7 +64,7 @@ int logger_init()
     return (0);
   }
   
-  fp = fopen("rogue.log", "w");
+  fp = fopen("rogue.log", "a");
   
   if (!fp) {
     return (-1);
@@ -103,9 +103,16 @@ void logger_log(logger_level l, char *loc, char *format, ...)
 {
   va_list args;
   
-  if (l < level || !fp) {
+  if (l < level) {
     return;
   }
+
+  if (!fp) {
+    if (logger_init() != 0) {
+      return;
+    }
+  }
+    
   
   va_start(args, format);
 
