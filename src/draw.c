@@ -52,20 +52,27 @@
 #include "draw.h"
 #include "colors.h"
 #include "chars.h"
+#include "logger.h"
 
 
 static void center_text(int row, const char *text, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   int indent;
   
   indent = COLS - strlen(text);
   indent /= 2;
   
   mvwaddstr(win, row, indent, text);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void horiz_line(int x, int y, int len, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
 
   wmove(win, y, x);
@@ -73,21 +80,28 @@ static void horiz_line(int x, int y, int len, WINDOW *win)
   for(i = 0; i < len; ++i) {
     waddstr(win, HORIZU);
   } 
-
+  
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void vert_line(int x, int y, int len, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
   
   for (i = 0; i < len; ++i) {
     wmove(win, y+i, x);
     waddstr(win, VERTU);
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 void draw_box(int startx, int starty, int rows, int cols, WINDOW* win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   color_wall();
   wmove(win, starty, startx);
   
@@ -104,11 +118,15 @@ void draw_box(int startx, int starty, int rows, int cols, WINDOW* win)
   waddstr(win, BLCORNERU);
   horiz_line(startx+1, starty+rows-1, cols-2, win);
   waddstr(win, BRCORNERU);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_room(int startx, int starty, int rows, int cols, bool floor, WINDOW* win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i, j;
   // dark room? if so, don't draw anything except in the coordinates
   // directly next to the hero
@@ -127,11 +145,15 @@ void draw_room(int startx, int starty, int rows, int cols, bool floor, WINDOW* w
       }
     }
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_welcome_box(WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   color_wall();
 
   wmove(win, 0, 0);
@@ -175,11 +197,14 @@ void draw_welcome_box(WINDOW *win)
   color_text();
   waddstr(win, "Rogue's Name: ");
   
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_stats(const state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   color_text();
   wmove(state->game, LINES-1, 0);
   wprintw(state->game, "Level:%d", state->level);
@@ -207,11 +232,14 @@ void draw_stats(const state_st *state)
     default:
       break;
   }
-
+  
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 void draw_message(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   int i;
 
   color_text();
@@ -226,27 +254,39 @@ void draw_message(state_st *state)
   }
   
   memset(state->message, 0, sizeof(state->message));
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_door(int x, int y, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   color_wall();
   wmove(win, y, x);
   waddstr(win, DOORU);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_tunnel(int x, int y, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   color_tunnel();
   wmove(win, y, x);
   waddstr(win, TUNNELU);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_rogue(int x, int y, bool tunnel, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   if (tunnel) {
     color_rogue_tunnel();
   } else {
@@ -255,19 +295,27 @@ void draw_rogue(int x, int y, bool tunnel, WINDOW *win)
   
   wmove(win, y, x);
   waddstr(win, ROGUEU);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_stairs(int x, int y, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   color_stairs();
   wmove(win, y, x);
   waddstr(win, STAIRSU);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void draw_items(int x, int y, items_e item, WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   wmove(win, y, x);
   color_item();
 
@@ -309,5 +357,5 @@ void draw_items(int x, int y, items_e item, WINDOW *win)
       break;
   }
     
-  
+  log_verbose("Leaving %s", __FUNCTION__);
 }

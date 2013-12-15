@@ -59,6 +59,10 @@ static logger_level level = LOGGER_LEVEL_OFF;
 int logger_init()
 {
   time_t ltime;
+
+  if (level == LOGGER_LEVEL_OFF) {
+    return (0);
+  }
   
   fp = fopen("rogue.log", "w");
   
@@ -83,7 +87,7 @@ void logger_stop()
 {
   time_t ltime;
   
-  if (!fp) {
+  if (level == LOGGER_LEVEL_OFF || !fp) {
     return;
   }
   
@@ -97,15 +101,12 @@ void logger_stop()
 
 void logger_log(logger_level l, char *loc, char *format, ...)
 {
-  if (l < level) {
-    return;
-  }
-
-  if (!fp) {
-    return;
-  }
-
   va_list args;
+  
+  if (l < level || !fp) {
+    return;
+  }
+  
   va_start(args, format);
 
   fprintf(fp, "%s - ", loc);

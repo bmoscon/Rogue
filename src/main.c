@@ -186,19 +186,18 @@ int main(int argc, char* argv[])
   // check for logging
   if (argc > 1) {
     if (!strcmp(argv[1], "--debug")) {
-      logger_init();
       logger_set_level(LOGGER_LEVEL_DEBUG);
     } else if (!strcmp(argv[1], "--verbose")) {
-      logger_init();
       logger_set_level(LOGGER_LEVEL_VERBOSE);
     } else if (!strcmp(argv[1], "--warn")) {
-      logger_init();
       logger_set_level(LOGGER_LEVEL_WARN);
     } else if (!strcmp(argv[1], "--error")) {
-      logger_init();
       logger_set_level(LOGGER_LEVEL_ERROR);
     }
   }
+
+  // set up logger. If no level has been set this call will do nothing. 
+  logger_init();
     
   // set up game state
   game_init(&state);
@@ -208,9 +207,6 @@ int main(int argc, char* argv[])
 
   // game loop
   do {
-    // log state info
-    state_log(&state);
-
     // clear game window
     wclear(state.game);
     // draw

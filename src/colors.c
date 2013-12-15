@@ -54,9 +54,12 @@
 
 
 #include "colors.h"
+#include "logger.h"
 
 void init_colors()
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
   init_pair(3, COLOR_WHITE, COLOR_BLACK);
@@ -66,6 +69,8 @@ void init_colors()
   init_pair(7, COLOR_RED, COLOR_BLACK);
   init_pair(8, COLOR_CYAN, COLOR_BLACK);
   init_pair(9, COLOR_BLUE, COLOR_BLACK);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 inline void color_wall()

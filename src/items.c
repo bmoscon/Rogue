@@ -48,11 +48,14 @@
 
 
 #include "items.h"
+#include "logger.h"
 
 
 
 void remove_item(state_st *state, int room, items_e item)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
   
   for (i = 0; i < MAX_ITEMS; ++i) {
@@ -66,5 +69,7 @@ void remove_item(state_st *state, int room, items_e item)
       }
     }
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 

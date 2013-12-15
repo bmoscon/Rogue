@@ -55,12 +55,16 @@
 #include "chars.h"
 #include "items.h"
 #include "level.h"
+#include "logger.h"
+
 
 // strdup is not in c99 standard, so simply including <string.h> will not suffice
 extern char *strdup(const char *s);
 
 static void quit_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   int i;
 
   // clear text area
@@ -86,18 +90,25 @@ static void quit_handler(state_st *state)
     }
     wrefresh(state->game);
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void help_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   switch_win(state->help);
   getch();
   switch_win(state->game);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 static void item_handler(state_st *state, items_e item)
 {
+  log_verbose("Entering %s", __FUNCTION__);
   uint32_t gold;
   int room;
   
@@ -122,12 +133,15 @@ static void item_handler(state_st *state, items_e item)
   room = get_room(state->x, state->y, state);
   remove_item(state, room, item);
 
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 // x and y indicate in what direction we are moving. 
 static void move_handler(state_st *state, int x, int y)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   cchar_t c;
   
   x += state->x;
@@ -156,22 +170,31 @@ static void move_handler(state_st *state, int x, int y)
   if (c.chars[0] != FLOOR && c.chars[0] != TUNNEL && c.chars[0] != DOOR && c.chars[0] != STAIRS) {
     item_handler(state, c.chars[0]);
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void downstairs_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
   // next level
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 static void upstairs_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   snprintf(state->message, sizeof(state->message), "The way is magically blocked");
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 static void inventory_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
   int i;
   
   // clear previous entries on screen
@@ -202,15 +225,20 @@ static void inventory_handler(state_st *state)
   switch_win(state->inventory);
   getch();
   switch_win(state->game);
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 void input_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
   int input;
 
   if (!state) {
     endwin();
     fprintf(stderr, "%s:%d - %s() - NULL game state\n", __FILE__, __LINE__, __FUNCTION__);
+    log_error("NULL game state");
+    logger_stop();
     free_state(state);
     exit(EXIT_FAILURE);
   }
@@ -251,12 +279,15 @@ void input_handler(state_st *state)
     default:
       break;
      
-  }  
+  }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void name_handler(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
   char input[64];
   
   wgetnstr(state->game, input, sizeof(input));
@@ -265,8 +296,11 @@ void name_handler(state_st *state)
   if (!state->name) {
     endwin();
     fprintf(stderr, "%s:%d - %s() - out of memory\n", __FILE__, __LINE__, __FUNCTION__);
+    log_error("malloc failed");
+    logger_stop();
     free_state(state); 
     exit(EXIT_FAILURE);
   }
 
+  log_verbose("Leaving %s", __FUNCTION__);
 }
