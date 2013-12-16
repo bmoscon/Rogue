@@ -1,3 +1,7 @@
+rogue - 0.1.2 - December 15, 2013
+	* various fixes (logger, memleak)
+	* add logging support to all files
+
 rogue - 0.1.1 - August 11, 2013
 	* Fix OSX compilation issue
 
