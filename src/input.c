@@ -98,10 +98,22 @@ static void help_handler(state_st *state)
 {
   log_verbose("Entering %s", __FUNCTION__);
 
-  switch_win(state->help);
-  getch();
-  switch_win(state->game);
+  if (switch_win(state->help) != 0) {
+    endwin();
+    logger_stop();
+    free_state(state);
+    exit(EXIT_FAILURE);
+  }
 
+  getch();
+  
+  if (switch_win(state->game) != 0) {
+    endwin();
+    logger_stop();
+    free_state(state);
+    exit(EXIT_FAILURE);
+  }
+  
   log_verbose("Leaving %s", __FUNCTION__);
 }
 
@@ -222,9 +234,21 @@ static void inventory_handler(state_st *state)
   
 
   // switch
-  switch_win(state->inventory);
+  if (switch_win(state->inventory) != 0) {
+    endwin();
+    logger_stop();
+    free_state(state);
+    exit(EXIT_FAILURE);
+  }
+  
   getch();
-  switch_win(state->game);
+  
+  if (switch_win(state->game) != 0) {
+    endwin();
+    logger_stop();
+    free_state(state);
+    exit(EXIT_FAILURE);
+  }
 
   log_verbose("Leaving %s", __FUNCTION__);
 }

@@ -154,6 +154,8 @@ void free_state(state_st *state)
 
 void roll_rogue(state_st *state)
 { 
+  log_verbose("Entering %s", __FUNCTION__);
+
   // strength should be between 9 and 12
   state->str_max = 9 + (rand() % 3);
   state->str = state->str_max;
@@ -170,10 +172,14 @@ void roll_rogue(state_st *state)
   state->gold = 0;
   state->level = 1;
   state->rank = 1;
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 void rings_init(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   int i;
   int indices[NUM_RINGS];
   
@@ -192,12 +198,15 @@ void rings_init(state_st *state)
       exit(EXIT_FAILURE);
     }
   }
-  
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void potions_init(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
   int indices[NUM_POTIONS];
   
@@ -216,12 +225,15 @@ void potions_init(state_st *state)
       exit(EXIT_FAILURE);
     }
   }
-
+  
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void wands_init(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
   int indices[NUM_WANDS];
   
@@ -240,7 +252,8 @@ void wands_init(state_st *state)
       exit(EXIT_FAILURE);
     }
   }
-
+  
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 

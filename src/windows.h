@@ -63,7 +63,7 @@ WINDOW* init_helpw();
 
 WINDOW* init_inventoryw();
 
-void switch_win(WINDOW *win);
+int switch_win(WINDOW *win);
 
 
 

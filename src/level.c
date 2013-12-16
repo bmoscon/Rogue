@@ -58,18 +58,26 @@
 
 static void add_door(int x, int y, int r, bool h, state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   for (int i = 0; i < MAX_DOORS; ++i) {
     if (state->map.rooms[r].doors[i].pos.x == 0 && state->map.rooms[r].doors[i].pos.y == 0) {
       state->map.rooms[r].doors[i].pos.x = x;
       state->map.rooms[r].doors[i].pos.y = y;
       state->map.rooms[r].doors[i].hidden = h;
+
+      log_verbose("Leaving %s", __FUNCTION__);
       return;
     }
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void add_tunnel(int x, int y, int end_x, int end_y, int r, state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+    
   int d_x = (end_x - x) ? 1 : 0;
   int d_y = (end_y - y) ? 1 : 0;
   int len = (end_x - x)  + (end_y - y);
@@ -96,14 +104,19 @@ static void add_tunnel(int x, int y, int end_x, int end_y, int r, state_st *stat
 	y += d_y;
       }
 
+      log_verbose("Leaving %s", __FUNCTION__);
       return;
     }
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 static void tunnel_to_room(int dir_x, int dir_y, int r, state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   if (r >= state->map.num_rooms) {
     return;
   }
@@ -140,6 +153,8 @@ static void tunnel_to_room(int dir_x, int dir_y, int r, state_st *state)
 	  log_debug("calling add tunnel with start (%d, %d), end (%d, %d), room %d",
 		    x, j, i-1, j, r);
 	  add_tunnel(x, j, i, j, r, state);
+
+	  log_verbose("Leaving %s", __FUNCTION__);
 	  return;
 	}
       }
@@ -160,16 +175,21 @@ static void tunnel_to_room(int dir_x, int dir_y, int r, state_st *state)
 	  add_door(i, j, ret, false, state);
 	  add_door(i, y-1, r, false, state);
 	  add_tunnel(i, y, i, j, r, state);
+	  
+	  log_verbose("Leaving %s", __FUNCTION__);
 	  return;
 	}
       } 
     }
   }
-  
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 static void generate_rooms(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int room_height_max;
   int room_width_max;
   int i;
@@ -218,21 +238,29 @@ static void generate_rooms(state_st *state)
     curr_room->pos.x = startx;
     curr_room->pos.y = starty;
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 static void randomize_tunnels(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   // connect all rooms to the right, and below
   for (int i = 0; i < state->map.num_rooms; ++i) {
     tunnel_to_room(1, 0, i, state);
     tunnel_to_room(0, 1, i, state);
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 static void randomize_positions(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   map_st *m = &(state->map);
   // pick random room
   int r = random_int(0, state->map.num_rooms);
@@ -244,20 +272,26 @@ static void randomize_positions(state_st *state)
 
   m->stairs.x = random_int(m->rooms[s].pos.x + 1, m->rooms[s].pos.x + m->rooms[s].x_len - 2);
   m->stairs.y = random_int(m->rooms[s].pos.y + 1, m->rooms[s].pos.y + m->rooms[s].y_len - 2);
-  
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void init_level(state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   generate_rooms(state);
   randomize_tunnels(state);
   randomize_positions(state);
-  
+ 
+  log_verbose("Leaving %s", __FUNCTION__); 
 }
 
 void draw_level(const state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   int i;
   int j;
   int r;
@@ -308,11 +342,17 @@ void draw_level(const state_st *state)
   
   // draw rogue
   draw_rogue(state->x, state->y, tunnel, win);
+
+  log_verbose("Leaving %s", __FUNCTION__);  
 }
 
 bool in_room_corners(int x, int y, int room, const state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   const room_st *r = &(state->map.rooms[room]);
+
+  log_verbose("Leaving %s", __FUNCTION__);  
   return (((x == r->pos.x) && (y == r->pos.y)) || 
 	  ((x == r->pos.x) && (y == r->pos.y + r->y_len-1)) || 
 	  ((x == r->pos.x + r->x_len-1) && (y == r->pos.y)) || 
@@ -334,8 +374,11 @@ bool in_room_corners(int x, int y, int room, const state_st *state)
  */
 bool in_room(int x, int y, int room, const state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   const room_st *r = &(state->map.rooms[room]);
 
+  log_verbose("Leaving %s", __FUNCTION__);
   return (((x < (r->pos.x + r->x_len)) && (x >= r->pos.x)) && 
 	  ((y < (r->pos.y + r->y_len)) && (y >= r->pos.y)));
 }
@@ -353,13 +396,17 @@ bool in_room(int x, int y, int room, const state_st *state)
  */
 int get_room(int x, int y, const state_st *state)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
   
   for (i = 0; i < state->map.num_rooms; ++i) {
     if (in_room(x, y, i, state)) {
+      log_verbose("Leaving %s", __FUNCTION__);
       return (i);
     }
   }
   
+  log_verbose("Leaving %s", __FUNCTION__);
   return (-1);
 }

@@ -50,8 +50,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "logger.h"
+
 static void random_syll(char *syll)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   static char con[] = "bcdfghjklmnpqrstvwxyz";
   static char vow[] = "aeiou";
 
@@ -60,15 +64,20 @@ static void random_syll(char *syll)
   syll[1] = vow[rand() % (sizeof(vow) - 2)];
   syll[2] = con[rand() % (sizeof(con) - 2)];
   syll[3] = '\0';
+  
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 int random_int(int min, int max)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   if (min == max) {
     return (min);
   }
   
+  log_verbose("Leaving %s", __FUNCTION__);
   return ((rand() % (max - min)) + min);
 }
 
@@ -76,6 +85,8 @@ int random_int(int min, int max)
 // Fisher-Yates Algorithm
 void random_shuffle(int *array, int upper)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   int i;
   int j;
   int t;
@@ -86,11 +97,15 @@ void random_shuffle(int *array, int upper)
     array[i] = array[j];
     array[j] = t;
   }
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 
 void random_string(char *str, size_t len)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   uint32_t i = 0;
   char syll[4];
   
@@ -106,6 +121,8 @@ void random_string(char *str, size_t len)
   }
   
   str[len] = '\0';
+
+  log_verbose("Leaving %s", __FUNCTION__);
 }
 
 

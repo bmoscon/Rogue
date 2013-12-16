@@ -48,24 +48,31 @@
 
 
 #include "windows.h"
+#include "logger.h"
 
 
 WINDOW* init_gamew()
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   // main game window doesn't require any default
   // stuff drawn, so just return the window
   
+  log_verbose("Leaving %s", __FUNCTION__);
   return (initscr());
 }
 
 
 WINDOW* init_helpw()
 {
+  log_verbose("Entering %s", __FUNCTION__);
+
   // need to draw the help menu onto the window. Each time we want to display it, we can just
   // touch the window and refresh.
   
   WINDOW *help = newwin(0,0,0,0);
   if (!help) {
+    log_verbose("Leaving %s", __FUNCTION__);
     return (NULL);
   }
   
@@ -74,32 +81,42 @@ WINDOW* init_helpw()
   mvwaddstr(help, 2, 0, "h: this menu");
   mvwaddstr(help, 3, 0, "q: quit");
   
-  
+  log_verbose("Leaving %s", __FUNCTION__);
   return (help);
 }
 
 
 WINDOW* init_inventoryw()
 { 
+  log_verbose("Entering %s", __FUNCTION__);
+
   WINDOW *inv = newwin(0,0,0,0);
   if (!inv) {
+    log_verbose("Leaving %s", __FUNCTION__);
     return (NULL);
   }
   
   mvwaddstr(inv, 0, 0, "Rogue Inventory");
-  
+
+  log_verbose("Leaving %s", __FUNCTION__);
   return (inv);
 }
 
 
-void switch_win(WINDOW *win)
+int switch_win(WINDOW *win)
 {
+  log_verbose("Entering %s", __FUNCTION__);
+  
   if (!win) {
-    endwin();
     fprintf(stderr, "%s:%d - %s() - NULL window\n", __FILE__, __LINE__, __FUNCTION__);
-    exit(EXIT_FAILURE);
+    log_error("NULL window");
+    
+    return (-1);
   }
   
   touchwin(win);
   wrefresh(win);
+
+  log_verbose("Leaving %s", __FUNCTION__);
+  return (0);
 }
