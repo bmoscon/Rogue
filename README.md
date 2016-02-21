@@ -1,5 +1,4 @@
 # Rogue
-=======
 
 A rogue clone, written in C, using NCurses
 
