@@ -11,6 +11,7 @@
  * associated with this software.
  *
  */
+
 #define _XOPEN_SOURCE_EXTENDED
 
 
@@ -88,87 +89,87 @@
 
 static void horiz_line(int x, int y, int len)
 {
-  int i;
-
-  move(y, x);
-
-  for(i = 0; i < len; ++i) {
-    addstr(HORIZU);
-  } 
-
+    int i;
+    
+    move(y, x);
+    
+    for(i = 0; i < len; ++i) {
+	addstr(HORIZU);
+    } 
+    
 }
 
 static void vert_line(int x, int y, int len)
 {
-  int i;
-  
-  for (i = 0; i < len; ++i) {
-    move(y+i, x);
-    addstr(VERTU);
-  }
+    int i;
+    
+    for (i = 0; i < len; ++i) {
+	move(y+i, x);
+	addstr(VERTU);
+    }
 }
 
 
 static void draw_box(int startx, int starty, int rows, int cols)
 {
-  move(starty, startx);
-  
-  addstr(TLCORNERU);
-  horiz_line(startx+1, starty, cols-2);
-  addstr(TRCORNERU);
-
-
-  vert_line(startx, starty+1, rows-2);
-  vert_line(startx+cols-1, starty+1, rows-2);
-
-  
-  move(starty+rows-1, startx);  
-  addstr(BLCORNERU);
-  horiz_line(startx+1, starty+rows-1, cols-2);
-  addstr(BRCORNERU);
+    move(starty, startx);
+    
+    addstr(TLCORNERU);
+    horiz_line(startx+1, starty, cols-2);
+    addstr(TRCORNERU);
+    
+    
+    vert_line(startx, starty+1, rows-2);
+    vert_line(startx+cols-1, starty+1, rows-2);
+    
+    
+    move(starty+rows-1, startx);  
+    addstr(BLCORNERU);
+    horiz_line(startx+1, starty+rows-1, cols-2);
+    addstr(BRCORNERU);
 }
 
 static void draw_room(int startx, int starty, int rows, int cols)
 {
-  int i, j;
-  
-  attrset(COLOR_PAIR(1));
-  // first draw the box
-  draw_box(startx, starty, rows, cols);
-  
-  attrset(COLOR_PAIR(2));
-  // now fill the background
-  for (i = 1; i < rows - 1; ++i) {
-    for (j = 1; j < cols - 1; ++j) {
-      move(starty + i, startx + j);
-      addstr(FLOORU);
+    int i, j;
+    
+    attrset(COLOR_PAIR(1));
+    // first draw the box
+    draw_box(startx, starty, rows, cols);
+    
+    attrset(COLOR_PAIR(2));
+    // now fill the background
+    for (i = 1; i < rows - 1; ++i) {
+	for (j = 1; j < cols - 1; ++j) {
+	    move(starty + i, startx + j);
+	    addstr(FLOORU);
+	}
     }
-  }
 }
 
 
 
 int main(int argc, char *argv[])
 {
-  setlocale(LC_ALL, "");
-  srand(time(NULL));
-  
-  initscr();
-  start_color();
-  init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-  init_pair(2, COLOR_GREEN, COLOR_BLACK);
- 
-  map_st *m = generate_rooms();  
-
-  for (int i = 0; i < m->num_rooms; ++i) {
-     draw_room(m->rooms[i].pos.x, m->rooms[i].pos.y, m->rooms[i].y_len, m->rooms[i].x_len);
-   }
-
-   getch();
-   endwin();
-
-   free(m->rooms);
-   free(m);
-  
-  return (0);
+    setlocale(LC_ALL, "");
+    srand(time(NULL));
+    
+    initscr();
+    start_color();
+    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    
+    map_st *m = generate_rooms();  
+    
+    for (int i = 0; i < m->num_rooms; ++i) {
+	draw_room(m->rooms[i].pos.x, m->rooms[i].pos.y, m->rooms[i].y_len, m->rooms[i].x_len);
+    }
+    
+    getch();
+    endwin();
+    
+    free(m->rooms);
+    free(m);
+    
+    return (0);
 }

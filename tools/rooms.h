@@ -35,34 +35,34 @@
 #define MAX_DOORS 4
 
 typedef struct coord_st {
-  int x;
-  int y;
+    int x;
+    int y;
 } coord_st;
 
 typedef struct door_t {
-  coord_st  pos;
-  bool      hidden;
+    coord_st  pos;
+    bool      hidden;
 } door_st;
 
 typedef struct tunnel_st {
-  int       len;
-  coord_st  pos;
+    int       len;
+    coord_st  pos;
 } tunnel_st;
 
 
 typedef struct room_t {
-  coord_st   pos;
-  int        x_len;
-  int        y_len;
-  door_st    doors[MAX_DOORS];
+    coord_st   pos;
+    int        x_len;
+    int        y_len;
+    door_st    doors[MAX_DOORS];
 } room_st;
 
 typedef struct map_t {
-  coord_st    stairs;
-  int         num_rooms;
-  int         num_tunnels;
-  room_st    *rooms;
-  tunnel_st  *tunnels;
+    coord_st    stairs;
+    int         num_rooms;
+    int         num_tunnels;
+    room_st    *rooms;
+    tunnel_st  *tunnels;
 } map_st;
 
 
