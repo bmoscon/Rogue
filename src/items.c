@@ -54,22 +54,22 @@
 
 void remove_item(state_st *state, int room, items_e item)
 {
-  log_verbose("Entering %s", __FUNCTION__);
-  
-  int i;
-  
-  for (i = 0; i < MAX_ITEMS; ++i) {
-    if (state->map.rooms[room].items[i].pos.x == state->x && 
-	state->map.rooms[room].items[i].pos.y == state->y) {
-      if (item == state->map.rooms[room].items[i].type) {
+    log_func_enter;
+    
+    int i;
+    
+    for (i = 0; i < MAX_ITEMS; ++i) {
+	if (state->map.rooms[room].items[i].pos.x == state->x && 
+	    state->map.rooms[room].items[i].pos.y == state->y) {
+	    if (item == state->map.rooms[room].items[i].type) {
 	state->map.rooms[room].items[i].type = I_NONE;
 	state->map.rooms[room].items[i].pos.x = 0;
 	state->map.rooms[room].items[i].pos.y = 0;
 	break;
-      }
+	    }
+	}
     }
-  }
 
-  log_verbose("Leaving %s", __FUNCTION__);
+    log_func_exit;
 }
 
