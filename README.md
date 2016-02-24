@@ -11,3 +11,6 @@ Note: unicode support requires NCursesw!
 Linux and OSX are supported, provided the correct libraries are installed. 
 On OSX, the macports ncurses library incldues both ncurses and ncursesw, 
 so please use that. (On Ubuntu package name is libncursesw5-dev)
+
+
+This is a work in progress! Is not fully playable!
