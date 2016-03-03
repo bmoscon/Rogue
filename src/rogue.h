@@ -196,6 +196,8 @@ typedef struct map_t {
 } map_st;
 
 
+#define MAX_UPDATES 5
+
 // Game State
 typedef struct state_st {
   WINDOW *game;
@@ -238,6 +240,11 @@ typedef struct state_st {
   
   // map data
   map_st map;
+  
+  // updated screen coords
+  // i.e. these need to be cleared on next draw
+  coord_st updates[MAX_UPDATES];   
+  int updates_pos;  
 } state_st;
 
 

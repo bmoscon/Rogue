@@ -175,9 +175,8 @@ int main(int argc, char* argv[])
 
     // game loop
     do {
-	// clear game window
-	wclear(state.game);
-	// draw
+	
+        // draw
 	draw(&state);
     
 	// input
