@@ -228,7 +228,7 @@ void input_handler(state_st *state)
 {
     log_func_enter;
     
-    int input, i;
+    int input;
 
     if (!state) {
 	endwin();
@@ -238,13 +238,6 @@ void input_handler(state_st *state)
 	free_state(state);
 	exit(EXIT_FAILURE);
     }
-
-    // clear out updated buffer
-    for (i = 0; i < MAX_UPDATES; ++i) {
-        state->updates[i].x = 0;
-        state->updates[i].y = 0;
-    }
-    state->updates_pos = 0;
 
     // even though ncurses has a getchw version (and we are using more than just stdscr), 
     // ncurses only has one input buffer, not one per window, so no need to use the
@@ -266,9 +259,6 @@ void input_handler(state_st *state)
 	upstairs_handler(state);
 	break;
     case KEY_DOWN:
-        state->updates[state->updates_pos].x = state->x;
-        state->updates[state->updates_pos].y = state->y;
-        state->updates_pos++;
 	move_handler(state, 0, 1);
 	break;
     case KEY_UP:
